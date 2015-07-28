@@ -1,6 +1,6 @@
 
 class Character(object):
-	def __init__(self, speed, armor, health, attack,hunger):
+	def __init__(self, speed, armor, health, attack, hunger):
 		self.speed = speed
 		self.armor = armor
 		self.health = health
@@ -20,28 +20,40 @@ class Knight(Character):
 	"""docstring for Knight"""
 	def __init__(self):
 		print("created a Knight")
-		super(Knight, self).__init__(3, 8, 6, 5)
+		super(Knight, self).__init__(3, 8, 6, 5, 10)
 
 class Wizard(Character):
 	"""docstring for Wizard"""
 	def __init__(self):
 		print("created a wizard")
-		super(Wizard, self).__init__(5, 3, 8, 7)
+		super(Wizard, self).__init__(5, 3, 8, 7, 10)
 
 class Gunner(Character):
 	"""docstring for Gunner"""
 	def __init__(self):
 		print("created a Gunner")
-		super(GunDude, self).__init__(6, 5, 5, 8)
+		super(GunDude, self).__init__(6, 5, 5, 8, 10)
 
 class Roag(Character):
 	"""docstring for Wizard"""
 	def __init__(self):
 		print("created a Roag")
-		super(Roag, self).__init__(10, 5, 8, 2)
+		super(Roag, self).__init__(10, 5, 8, 2, 10)
 
 class Orc(Monster):
 	"""docstring for Orc"""
 	def __init__(self):
 		print("created an Orc")
 		super(Orc, self).__init__(7, 3, 2, 4)
+
+class Monkey(Monster):
+	"""docstring for Monkey"""
+	def __init__(self):
+		print("created an Monkey")
+		super(Monkey, self).__init__(5, 3, 4, 5)
+
+class Dragon(Monster):
+	"""docstring for Dragon"""
+	def __init__(self):
+		print("created an Dragon")
+		super(Dragon, self).__init__(3, 7, 10, 7)
