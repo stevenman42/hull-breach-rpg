@@ -9,27 +9,34 @@ termios.tcsetattr(fd, termios.TCSANOW, newattr)
 oldflags = fcntl.fcntl(fd, fcntl.F_GETFL)
 fcntl.fcntl(fd, fcntl.F_SETFL, oldflags | os.O_NONBLOCK)
 
-try:
-    while 1:
-        try:
-            c = sys.stdin.read(1)
-            if c == "\x1b":
-            	c = sys.stdin.read(1)
-            	if c == "[":
-            		c = sys.stdin.read(1)
-            		if c == "A":
-            			print("up arrow")
-            		elif c == "B":
-            			print("down arrow")
-            		elif c == "C":
-            			print("right arrow")
-            		elif c == "D":
-            			print("left arrow")
 
-        except IOError: pass
-finally:
-    termios.tcsetattr(fd, termios.TCSAFLUSH, oldterm)
-    fcntl.fcntl(fd, fcntl.F_SETFL, oldflags)
+def get_input():
+	try:
+		while 1:
+			try:
+				c = sys.stdin.read(1)
+				if c == "\x1b":
+					c = sys.stdin.read(1)
+					if c == "[":
+						c = sys.stdin.read(1)
+						if c == "A":
+							return("up arrow")
+						elif c == "B":
+							return("down arrow")
+						elif c == "C":
+							return("right arrow")
+						elif c == "D":
+							return("left arrow")
+
+			except IOError: pass
+
+	finally:
+		termios.tcsetattr(fd, termios.TCSAFLUSH, oldterm)
+		fcntl.fcntl(fd, fcntl.F_SETFL, oldflags)
 
 def run():
-	pass
+	while 1:
+		print(get_input())
+		print("hue")
+
+run()
