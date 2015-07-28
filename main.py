@@ -1,5 +1,6 @@
 import os, sys
 import input
+import characters
 
 
 # the doodad that gets the keyboard input
@@ -13,7 +14,7 @@ getch = input._GetchUnix()
 
 
 class Game(object):
-	def __init__(self, width=10, height=10, playerX=5, playerY=5, Character):
+	def __init__(self, Character, width=10, height=10, playerX=5, playerY=5):
 
 		self.map = []
 
@@ -29,16 +30,21 @@ class Game(object):
 
 		
 		
-	def render():
+	def render(self):
+		os.system("clear")
 		for i in range(self.height):
 			for j in range(self.width):
 				sys.stdout.write(self.map[i][j])
 			sys.stdout.write("\n")
 
 	def tick(self):
-		pass
+		self.render()
 
 def run():
-	game = Game(20, 20, 5, 5)
+	game = Game(characters.Knight(), 20, 20, 5, 5)
+
+	while 1:
+		if getch.__call__() == "up":
+			print("up")
 
 run()
