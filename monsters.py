@@ -5,6 +5,9 @@ class Monster(object):
 		self.health = health
 		self.attack = attack
 
+	def attack(self,object,damage):
+		object.health -= damage
+
 class Orc(Monster):
 	"""docstring for Orc"""
 	def __init__(self):

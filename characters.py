@@ -1,4 +1,3 @@
-
 class Character(object):
 	def __init__(self, speed, armor, health, attack, hunger):
 		self.speed = speed
@@ -8,7 +7,6 @@ class Character(object):
 
 	def attack(self,object,damage):
 		object.health -= damage
-
 
 class Knight(Character):
 	"""docstring for Knight"""
