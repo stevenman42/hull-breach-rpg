@@ -29,13 +29,14 @@ class Game(object):
 
 		
 		
+	def render():
 		for i in range(self.height):
 			for j in range(self.width):
 				sys.stdout.write(self.map[i][j])
 			sys.stdout.write("\n")
 
 	def tick(self):
-
+		pass
 
 def run():
 	game = Game(20, 20, 5, 5)
