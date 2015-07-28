@@ -1,3 +1,5 @@
+import settings, main
+
 menu = ['create new game (1)', 'continue game (2)', 'settings (3)', 'exit (4)']
 
 def title():
@@ -7,11 +9,11 @@ def title():
 
 
     if selection == '1':
-        print("start new game")
+        main.run()
     elif selection == '2':
-        print("continue")
+        main.run()
     elif selection == '3':
-        print("settings")
+        settings.settings_menu()
     elif selection == '4':
         print("bye!")
         quit()
