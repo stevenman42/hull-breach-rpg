@@ -10,7 +10,8 @@ class Character(object):
 	def attack(self,target,damage):
 		target.health -= damage
 
-	def move(self, deltaX, deltaY):
+	def move(self, game, deltaX, deltaY):
+		print(super.map())
 		self.xPos += deltaX
 		self.yPos += deltaY
 

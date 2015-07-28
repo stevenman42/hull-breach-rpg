@@ -27,9 +27,9 @@ class Game(object):
 		self.height = len(self.map)
 		self.width = len(self.map[0])
 
-		self.map[playerY][playerX] = "0"
+		self.map[Character.yPos][Character.xPos] = "0"
 
-		
+		self.render()
 		
 	def render(self):
 		os.system("clear")
@@ -45,19 +45,22 @@ def run():
 	game = Game(characters.Knight(), 20, 20, 5, 5)
 
 	while 1:
+		print("wat")
 		if getch.__call__() == "up":
-			game.player.move(0, -1)
+			print("up")
+			game.player.move(game, 0, -1)
 			game.tick()
 		elif getch.__call__() == "down":
-			game.player.move(0, 1)
+			#game.player.move(0, 1)
 			game.tick()
 		elif getch.__call__() == "left":
-			game.player.move(-1, 0)
+			#game.player.move(-1, 0)
 			game.tick()
 		elif getch.__call__() == "right":
-			game.player.move(0, -1)
+			#game.player.move(0, -1)
 			game.tick()
-		elif getch.__call__() == "a":
+		elif getch.__call__() == "q":
+			print("bai")
 			sys.exit()
 
 
