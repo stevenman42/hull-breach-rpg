@@ -13,7 +13,7 @@ getch = input._GetchUnix()
 
 
 class Game(object):
-	def __init__(self, width=10, height=10, playerX=5, playerY=5, Player):
+	def __init__(self, width=10, height=10, playerX=5, playerY=5, Character):
 
 		self.map = []
 
