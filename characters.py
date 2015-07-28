@@ -1,15 +1,22 @@
-class Knight(object):
-	"""docstring for Knight"""
-	def __init__(self, arg):
-		super(Knight, self).__init__()
-		self.speed = 3
-		self.armor = 8
-		self.health = 6
 
-class Wizard(object):
+class Character(object):
+	def __init__(self, speed, armor, health):
+		self.speed = speed
+		self.armor = armor
+		self.health = health
+
+
+
+class Knight(Character):
+	"""docstring for Knight"""
+	def __init__(self):
+		super(Knight, self).__init__(3, 8, 6)
+
+class Wizard(Character):
 	"""docstring for Wizard"""
-	def __init__(self, arg):
-		super(Wizard, self).__init__()
-		self.speed = 5
-		self.armor = 3
-		self.health = 8
+	def __init__(self):
+		print("created a wizard")
+		super(Wizard, self).__init__(5, 3, 8)
+
+
+
