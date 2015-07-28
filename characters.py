@@ -5,7 +5,8 @@ class Character(object):
 		self.armor = armor
 		self.health = health
 
-
+	def attack(self,object,damage):
+		object.health -= damage
 
 class Knight(Character):
 	"""docstring for Knight"""
@@ -17,6 +18,3 @@ class Wizard(Character):
 	def __init__(self):
 		print("created a wizard")
 		super(Wizard, self).__init__(5, 3, 8)
-
-
-
