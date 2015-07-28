@@ -1,42 +1,43 @@
-import termios, fcntl, sys, os
-fd = sys.stdin.fileno()
-
-oldterm = termios.tcgetattr(fd)
-newattr = termios.tcgetattr(fd)
-newattr[3] = newattr[3] & ~termios.ICANON & ~termios.ECHO
-termios.tcsetattr(fd, termios.TCSANOW, newattr)
-
-oldflags = fcntl.fcntl(fd, fcntl.F_GETFL)
-fcntl.fcntl(fd, fcntl.F_SETFL, oldflags | os.O_NONBLOCK)
+import os, sys
+import input
 
 
-def get_input():
-	try:
-		while 1:
-			try:
-				c = sys.stdin.read(1)
-				if c == "\x1b":
-					c = sys.stdin.read(1)
-					if c == "[":
-						c = sys.stdin.read(1)
-						if c == "A":
-							return("up arrow")
-						elif c == "B":
-							return("down arrow")
-						elif c == "C":
-							return("right arrow")
-						elif c == "D":
-							return("left arrow")
+# the doodad that gets the keyboard input
+getch = input._GetchUnix()
 
-			except IOError: pass
 
-	finally:
-		termios.tcsetattr(fd, termios.TCSAFLUSH, oldterm)
-		fcntl.fcntl(fd, fcntl.F_SETFL, oldflags)
+# for i in range(10):
+#     print(getch.__call__())
+    #getch.__call__()
+
+
+
+class Game(object):
+	def __init__(self, width=10, height=10, playerX=5, playerY=5, Player):
+
+		self.map = []
+
+		for i in range(height):
+			self.map.append([])
+			for j in range(width):
+				self.map[i].append(".")
+
+		self.height = len(self.map)
+		self.width = len(self.map[0])
+
+		self.map[playerY][playerX] = "0"
+
+		
+		
+		for i in range(self.height):
+			for j in range(self.width):
+				sys.stdout.write(self.map[i][j])
+			sys.stdout.write("\n")
+
+	def tick(self):
+
 
 def run():
-	while 1:
-		print(get_input())
-		print("hue")
+	game = Game(20, 20, 5, 5)
 
 run()
