@@ -1,4 +1,6 @@
-class Character(object):
+import entities
+
+class Character(entities.Entity):
 	def __init__(self, speed, armor, health, attack, hunger, xPos=0, yPos=0):
 		self.speed = speed
 		self.armor = armor
@@ -10,12 +12,7 @@ class Character(object):
 	def attack(self,target,damage):
 		target.health -= damage
 
-	def move(self, game, deltaX, deltaY):
-		print("movin'")
-		game.map[self.yPos][self.xPos] = "."
-		self.xPos += deltaX
-		self.yPos += deltaY
-		game.map[self.yPos][self.xPos] = "0"
+
 
 class Knight(Character):
 	"""docstring for Knight"""

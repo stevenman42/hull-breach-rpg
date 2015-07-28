@@ -18,16 +18,19 @@ class Game(object):
 
 		self.player = Character
 		self.map = []
+		self.entities = []
 
 		for i in range(height):
 			self.map.append([])
+			self.entities.append([])
 			for j in range(width):
 				self.map[i].append(".")
+				self.entities[i].append(" ")
 
 		self.height = len(self.map)
 		self.width = len(self.map[0])
 
-		self.map[self.player.yPos][self.player.xPos] = "0"
+		self.entities[self.player.yPos][self.player.xPos] = "0"
 
 		self.render()
 		
@@ -35,7 +38,10 @@ class Game(object):
 		os.system("clear")
 		for i in range(self.height):
 			for j in range(self.width):
-				sys.stdout.write(self.map[i][j])
+				if entities[i][j] == " ":
+					sys.stdout.write(self.map[i][j])
+				elif entities[i][j] != " ":
+					sys.stdout.write(self.map[i][j])
 			sys.stdout.write("\n")
 
 	def tick(self):
@@ -59,6 +65,7 @@ def run():
 			game.player.move(game, 1, 0)
 			game.tick()
 		elif inn == "q":
+			os.system("clear")
 			print("bai")
 			sys.exit()
 		else:

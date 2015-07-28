@@ -1,4 +1,6 @@
-class Monster(object):
+import entities
+
+class Monster(entities.Entity):
 	def __init__(self, speed, armor, health, attack, icon):
 		self.speed = speed
 		self.armor = armor
