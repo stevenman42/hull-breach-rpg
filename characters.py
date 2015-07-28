@@ -1,5 +1,5 @@
 class Character(object):
-	def __init__(self, speed, armor, health, attack, hunger, xPos, yPos):
+	def __init__(self, speed, armor, health, attack, hunger, xPos=0, yPos=0):
 		self.speed = speed
 		self.armor = armor
 		self.health = health
