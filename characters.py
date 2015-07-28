@@ -4,17 +4,11 @@ class Character(object):
 		self.speed = speed
 		self.armor = armor
 		self.health = health
-		self.armor = attack
+		self.attack = attack
 
 	def attack(self,object,damage):
 		object.health -= damage
 
-class Monster(object):
-	def __init__(self, speed, armor, health, attack):
-		self.speed = speed
-		self.armor = armor
-		self.health = health
-		self.armor = attack
 
 class Knight(Character):
 	"""docstring for Knight"""
@@ -34,26 +28,9 @@ class Gunner(Character):
 		print("created a Gunner")
 		super(GunDude, self).__init__(6, 5, 5, 8, 10)
 
-class Roag(Character):
+class Rogue(Character):
 	"""docstring for Wizard"""
 	def __init__(self):
-		print("created a Roag")
+		print("created a Rogue")
 		super(Roag, self).__init__(10, 5, 8, 2, 10)
 
-class Orc(Monster):
-	"""docstring for Orc"""
-	def __init__(self):
-		print("created an Orc")
-		super(Orc, self).__init__(7, 3, 2, 4)
-
-class Monkey(Monster):
-	"""docstring for Monkey"""
-	def __init__(self):
-		print("created an Monkey")
-		super(Monkey, self).__init__(5, 3, 4, 5)
-
-class Dragon(Monster):
-	"""docstring for Dragon"""
-	def __init__(self):
-		print("created an Dragon")
-		super(Dragon, self).__init__(3, 7, 10, 7)
