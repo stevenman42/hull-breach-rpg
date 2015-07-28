@@ -8,6 +8,13 @@ class Monster(object):
 	def attack(self,object,damage):
 		object.health -= damage
 
+	def move(self, game, deltaX, deltaY):
+		print("movin'")
+		game.map[self.yPos][self.xPos] = "."
+		self.xPos += deltaX
+		self.yPos += deltaY
+		game.map[self.yPos][self.xPos] = "0"
+
 class Orc(Monster):
 	"""docstring for Orc"""
 	def __init__(self):
