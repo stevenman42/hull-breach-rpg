@@ -13,8 +13,23 @@ try:
     while 1:
         try:
             c = sys.stdin.read(1)
-            print "Got character", repr(c)
+            if c == "\x1b":
+            	c = sys.stdin.read(1)
+            	if c == "[":
+            		c = sys.stdin.read(1)
+            		if c == "A":
+            			print("up arrow")
+            		elif c == "B":
+            			print("down arrow")
+            		elif c == "C":
+            			print("right arrow")
+            		elif c == "D":
+            			print("left arrow")
+
         except IOError: pass
 finally:
     termios.tcsetattr(fd, termios.TCSAFLUSH, oldterm)
     fcntl.fcntl(fd, fcntl.F_SETFL, oldflags)
+
+def run():
+	pass
