@@ -1,12 +1,18 @@
 class Character(object):
-	def __init__(self, speed, armor, health, attack, hunger):
+	def __init__(self, speed, armor, health, attack, hunger, xPos, yPos):
 		self.speed = speed
 		self.armor = armor
 		self.health = health
 		self.attack = attack
+		self.xPos = xPos
+		self.yPos = yPos
 
-	def attack(self,object,damage):
-		object.health -= damage
+	def attack(self,target,damage):
+		target.health -= damage
+
+	def move(self, deltaX, deltaY):
+		xPos += deltaX
+		yPos += deltaY
 
 class Knight(Character):
 	"""docstring for Knight"""

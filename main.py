@@ -45,6 +45,6 @@ def run():
 
 	while 1:
 		if getch.__call__() == "up":
-			print("up")
+			pass
 
 run()
