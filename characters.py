@@ -11,8 +11,8 @@ class Character(object):
 		target.health -= damage
 
 	def move(self, deltaX, deltaY):
-		xPos += deltaX
-		yPos += deltaY
+		self.xPos += deltaX
+		self.yPos += deltaY
 
 class Knight(Character):
 	"""docstring for Knight"""
