@@ -11,9 +11,11 @@ class Character(object):
 		target.health -= damage
 
 	def move(self, game, deltaX, deltaY):
-		print(super.map())
+		print("movin'")
+		game.map[self.yPos][self.xPos] = "."
 		self.xPos += deltaX
 		self.yPos += deltaY
+		game.map[self.yPos][self.xPos] = "0"
 
 class Knight(Character):
 	"""docstring for Knight"""

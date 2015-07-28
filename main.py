@@ -45,19 +45,18 @@ def run():
 	game = Game(characters.Knight(), 20, 20, 5, 5)
 
 	while 1:
-		print("wat")
 		if getch.__call__() == "up":
 			print("up")
 			game.player.move(game, 0, -1)
 			game.tick()
 		elif getch.__call__() == "down":
-			#game.player.move(0, 1)
+			game.player.move(game, 0, 1)
 			game.tick()
 		elif getch.__call__() == "left":
-			#game.player.move(-1, 0)
+			game.player.move(game, -1, 0)
 			game.tick()
 		elif getch.__call__() == "right":
-			#game.player.move(0, -1)
+			game.player.move(game, 1, 0)
 			game.tick()
 		elif getch.__call__() == "q":
 			print("bai")
