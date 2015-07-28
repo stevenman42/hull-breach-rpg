@@ -47,11 +47,19 @@ def run():
 	while 1:
 		if getch.__call__() == "up":
 			game.player.move(0, -1)
+			game.tick()
 		elif getch.__call__() == "down":
 			game.player.move(0, 1)
+			game.tick()
 		elif getch.__call__() == "left":
 			game.player.move(-1, 0)
+			game.tick()
 		elif getch.__call__() == "right":
 			game.player.move(0, -1)
+			game.tick()
+		elif getch.__call__() == "a":
+			sys.exit()
+
+
 
 run()
