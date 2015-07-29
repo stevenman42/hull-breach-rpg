@@ -1,6 +1,7 @@
 import os, sys
 import input
 import characters
+import info
 
 
 # the doodad that gets the keyboard input
@@ -19,6 +20,7 @@ class Game(object):
 		self.player = Character
 		self.map = []
 		self.entities = []
+		self.info = info.Info(self.player)
 
 		for i in range(height):
 			self.map.append([])
@@ -36,13 +38,18 @@ class Game(object):
 		
 	def render(self):
 		os.system("clear")
+
+		self.info.render()
+
 		for i in range(self.height):
 			for j in range(self.width):
-				if entities[i][j] == " ":
+				if self.entities[i][j] == " ":
 					sys.stdout.write(self.map[i][j])
-				elif entities[i][j] != " ":
+				elif self.entities[i][j] != " ":
 					sys.stdout.write(self.map[i][j])
 			sys.stdout.write("\n")
+
+
 
 	def tick(self):
 		self.render()

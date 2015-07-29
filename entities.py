@@ -5,7 +5,13 @@ class Entity(object):
 
 	def move(self, game, deltaX, deltaY):
 		print("movin'")
-		game.map[self.yPos][self.xPos] = "."
-		self.xPos += deltaX
-		self.yPos += deltaY
-		game.map[self.yPos][self.xPos] = "0"
+
+		try:
+			game.map[self.yPos][self.xPos] = "."
+			self.xPos += deltaX
+			self.yPos += deltaY
+			game.map[self.yPos][self.xPos] = "0"
+		except IndexError:
+			self.xPos -= deltaX
+			self.yPos -= deltaY
+			game.map[self.yPos][self.xPos] = "0"
