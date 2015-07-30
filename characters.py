@@ -19,7 +19,6 @@ class Character(entities.Entity):
 
 	def pick_up(self, item):
 		self.inventory.append(item)
-		
 
 
 
