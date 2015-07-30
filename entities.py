@@ -7,12 +7,12 @@ class Entity(object):
 		print("movin'")
 
 		try:
-			game.entities[self.yPos][self.xPos] = None
-			game.entity_icons[self.yPos][self.xPos] = " "
+			game.entities[self.yPos][self.xPos].remove(self)
+			game.entity_icons[self.yPos][self.xPos].remove(self.icon)
 			self.xPos += deltaX
 			self.yPos += deltaY
-			game.entities[self.yPos][self.xPos] = game.player
-			game.entity_icons[self.yPos][self.xPos] = game.player.icon
+			game.entities[self.yPos][self.xPos].append(self)
+			game.entity_icons[self.yPos][self.xPos].append(self.icon)
 		except IndexError:
 			self.xPos -= deltaX
 			self.yPos -= deltaY

@@ -2,6 +2,7 @@ import os, sys
 import input
 import characters
 import info
+import entities
 
 
 # the doodad that gets the keyboard input
@@ -33,17 +34,29 @@ class Game(object):
 			self.entity_icons.append([])
 			for j in range(width):
 				self.map[i].append(".")
-				self.entities[i].append(None)
-				self.entity_icons[i].append(" ")
+
+				# HAHAH 3D MATRICES WHAT R U GONNA DO ABOUT IT
+				self.entities[i].append([])
+				self.entity_icons[i].append([])
+
+		for i in self.entities:
+			print(i)
 
 		self.height = len(self.map)
 		self.width = len(self.map[0])
 
 
-		self.entities[self.player.yPos][self.player.xPos] = self.player
-		self.entity_icons[self.player.yPos][self.player.xPos] = self.player.icon
+		self.add_entity(0, 0, self.player)
+
+		# TEST CODE PLS IGNORE
+		self.add_entity(5, 5, entities.Book("red"))
+
 
 		self.render()
+
+	def add_entity(self, xPos, yPos, entity):
+		self.entities[yPos][xPos].append(entity)
+		self.entity_icons[yPos][xPos].append(entity.icon)
 		
 	def render(self):
 		os.system("clear")
@@ -54,16 +67,28 @@ class Game(object):
 
 		for i in range(self.height):
 			for j in range(self.width):
-				if self.entity_icons[i][j] == " ":
-					sys.stdout.write(self.map[i][j])
-				elif self.entity_icons[i][j] != " ":
-					sys.stdout.write(self.entity_icons[i][j])
+				try:
+					if self.entity_icons[i][j][-1] == " ":
+						sys.stdout.write(self.map[i][j])
+
+					elif self.entity_icons[i][j][-1] != " ":
+						# always uses the last item in the list for rendering
+						try:
+							sys.stdout.write(self.entity_icons[i][j][-1])
+						except IndexError:
+							pass
+				except IndexError:
+					sys.stdout.write(".")
+
 			sys.stdout.write("\n")
 
 	def render_inventory(self):
 		os.system("clear")
+		print("Inventory")
+		print("_" * 20)
+		print("|")
 		for i in self.player.inventory:
-			print(i)
+			print("|   " + i + "   |")
 
 
 
