@@ -39,8 +39,7 @@ class Game(object):
 				self.entities[i].append([])
 				self.entity_icons[i].append([])
 
-		for i in self.entities:
-			print(i)
+
 
 		self.height = len(self.map)
 		self.width = len(self.map[0])
@@ -49,21 +48,34 @@ class Game(object):
 		self.add_entity(0, 0, self.player)
 
 		# TEST CODE PLS IGNORE
-		self.add_entity(5, 5, entities.Book("red"))
+		self.add_entity(5, 5, entities.Book("Super red"))
 
 
+		self.say("Welcome to hull breach!  Watch out for hull breaches!")
 		self.render()
+		
 
 	def add_entity(self, xPos, yPos, entity):
 		self.entities[yPos][xPos].append(entity)
 		self.entity_icons[yPos][xPos].append(entity.icon)
+
+	def get_entity(self, xPos, yPos, zPos):
+		try:
+			return self.entities[yPos][xPos][zPos]
+		except IndexError:
+			return entities.NullEntity()
+
+	def get_entity_icon(self, xPos, yPos, zPos):
+		try:
+			return self.get_entity(xPos, yPos, zPos).icon
+		except IndexError:
+			return " "
 		
 	def render(self):
 		os.system("clear")
 
-		print(self.entity_icons[0])
-
 		self.info.render()
+		self.info.render_dialogue()
 
 		for i in range(self.height):
 			for j in range(self.width):
@@ -89,6 +101,10 @@ class Game(object):
 		print("|")
 		for i in self.player.inventory:
 			print("|   " + i + "   |")
+
+	def say(self, dialogue):
+		self.info.add_dialogue(dialogue)
+
 
 
 
@@ -126,8 +142,10 @@ def run():
 				game.tick()
 				inv = not inv
 		elif inn == ",":
-			if game.entities[game.player.yPos][game.player.xPos] != " ":
-				print("you picked it up")
+			if game.get_entity_icon(game.player.xPos, game.player.yPos, -2) != "0" and game.get_entity_icon(game.player.xPos, game.player.yPos, -2) != " ":
+				game.say("you picked up the " + game.get_entity(game.player.xPos, game.player.yPos, -2).description + " " + game.get_entity(game.player.xPos, game.player.yPos, -2).name)
+				game.player.pick_up(game.get_entity(game.player.xPos, game.player.yPos, -2).name)
+			game.tick()
 
 
 		else:

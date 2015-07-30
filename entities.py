@@ -4,7 +4,6 @@ class Entity(object):
 		pass
 
 	def move(self, game, deltaX, deltaY):
-		print("movin'")
 
 		try:
 			game.entities[self.yPos][self.xPos].remove(self)
@@ -13,6 +12,13 @@ class Entity(object):
 			self.yPos += deltaY
 			game.entities[self.yPos][self.xPos].append(self)
 			game.entity_icons[self.yPos][self.xPos].append(self.icon)
+			for i in game.entities[self.yPos][self.xPos]:
+				if i != game.player:
+					print(game.entities[self.yPos][self.xPos])
+					if not len(game.entities[self.yPos][self.xPos]) > 3:
+						game.say("You see here a " + game.entities[self.yPos][self.xPos][0].description + " " + game.entities[self.yPos][self.xPos][0].name)
+					else:
+						game.say("You see here several items")
 		except IndexError:
 			self.xPos -= deltaX
 			self.yPos -= deltaY
@@ -24,5 +30,11 @@ class Book(Entity):
 
 	def __init__(self, description):
 		self.description = description
+		self.name = "book"
 		self.icon = "B"
 
+
+class NullEntity(Entity):
+
+	def __init__(self):
+		self.icon = " "
