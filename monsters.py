@@ -6,6 +6,7 @@ class Monster(entities.Entity):
 		self.armor = armor
 		self.health = health
 		self.attack = attack
+		self.icon = icon
 
 	def attack(self,object,damage):
 		object.health -= damage
@@ -25,15 +26,21 @@ class Orc(Monster):
 	def __init__(self):
 		print("created an Orc")
 		super(Orc, self).__init__(7, 3, 2, 4, 'o')
+		self.walkable = False
+		self.name = "Orc"
 
 class Monkey(Monster):
 	"""docstring for Monkey"""
 	def __init__(self):
 		print("created a Monkey")
 		super(Monkey, self).__init__(5, 3, 4, 5, 'm')
+		self.walkable = False
+		self.name = "Monkey"
 
 class Dragon(Monster):
 	"""docstring for Dragon"""
 	def __init__(self):
 		print("created a Dragon")
 		super(Dragon, self).__init__(3, 7, 10, 7, 'D')
+		self.walkable = False
+		self.name = "Dragon"

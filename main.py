@@ -3,6 +3,7 @@ import input
 import characters
 import info
 import entities
+import monsters
 
 
 # the doodad that gets the keyboard input
@@ -49,6 +50,7 @@ class Game(object):
 
 		# TEST CODE PLS IGNORE
 		self.add_entity(5, 5, entities.Book("Super red"))
+		self.add_entity(4, 4, monsters.Orc())
 
 
 		self.say("Welcome to hull breach!  Watch out for hull breaches!")
@@ -58,6 +60,10 @@ class Game(object):
 	def add_entity(self, xPos, yPos, entity):
 		self.entities[yPos][xPos].append(entity)
 		self.entity_icons[yPos][xPos].append(entity.icon)
+
+	def remove_entity(self, xPos, yPos, entity):
+		self.entities[yPos][xPos].remove(entity)
+		self.entity_icons[yPos][xPos].remove(entity.icon)
 
 	def get_entity(self, xPos, yPos, zPos):
 		try:
@@ -112,7 +118,9 @@ class Game(object):
 		self.render()
 
 def run():
-	game = Game(characters.Knight(), 20, 20, 5, 5)
+	guy = characters.Knight(None)
+	game = Game(guy, 20, 20, 5, 5)
+	guy.game = game
 
 	inv = False
 
@@ -144,7 +152,7 @@ def run():
 		elif inn == ",":
 			if game.get_entity_icon(game.player.xPos, game.player.yPos, -2) != "0" and game.get_entity_icon(game.player.xPos, game.player.yPos, -2) != " ":
 				game.say("you picked up the " + game.get_entity(game.player.xPos, game.player.yPos, -2).description + " " + game.get_entity(game.player.xPos, game.player.yPos, -2).name)
-				game.player.pick_up(game.get_entity(game.player.xPos, game.player.yPos, -2).name)
+				game.player.pick_up(game.get_entity(game.player.xPos, game.player.yPos, -2))
 			game.tick()
 
 
