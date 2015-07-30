@@ -12,10 +12,13 @@ class Monster(entities.Entity):
 
 	def move(self, game, deltaX, deltaY):
 		print("movin'")
-		game.map[self.yPos][self.xPos] = "."
+		#game.map[self.yPos][self.xPos] = "."
+		game.entities[self.yPos][self.xPos] = None
+		game.entity_tiles[self.yPos][self.xPos] = " "
 		self.xPos += deltaX
 		self.yPos += deltaY
-		game.map[self.yPos][self.xPos] = "0"
+		game.entities[self.yPos][self.xPos] = game.player
+		game.entity_tiles[self.yPos][self.xPos] = game.player.icon
 
 class Orc(Monster):
 	"""docstring for Orc"""
@@ -26,11 +29,11 @@ class Orc(Monster):
 class Monkey(Monster):
 	"""docstring for Monkey"""
 	def __init__(self):
-		print("created an Monkey")
+		print("created a Monkey")
 		super(Monkey, self).__init__(5, 3, 4, 5, 'm')
 
 class Dragon(Monster):
 	"""docstring for Dragon"""
 	def __init__(self):
-		print("created an Dragon")
+		print("created a Dragon")
 		super(Dragon, self).__init__(3, 7, 10, 7, 'D')

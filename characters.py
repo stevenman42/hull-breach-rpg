@@ -11,6 +11,8 @@ class Character(entities.Entity):
 
 		self.inventory = []
 
+		self.icon = "0"
+
 	def attack(self,target,damage):
 		target.health -= damage
 

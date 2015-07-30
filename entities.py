@@ -7,11 +7,22 @@ class Entity(object):
 		print("movin'")
 
 		try:
-			game.map[self.yPos][self.xPos] = "."
+			game.entities[self.yPos][self.xPos] = None
+			game.entity_icons[self.yPos][self.xPos] = " "
 			self.xPos += deltaX
 			self.yPos += deltaY
-			game.map[self.yPos][self.xPos] = "0"
+			game.entities[self.yPos][self.xPos] = game.player
+			game.entity_icons[self.yPos][self.xPos] = game.player.icon
 		except IndexError:
 			self.xPos -= deltaX
 			self.yPos -= deltaY
-			game.map[self.yPos][self.xPos] = "0"
+			game.entities[self.yPos][self.xPos] = game.player
+			game.entity_icons[self.yPos][self.xPos] = game.player.icon
+
+
+class Book(Entity):
+
+	def __init__(self, description):
+		self.description = description
+		self.icon = "B"
+
