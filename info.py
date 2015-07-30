@@ -8,16 +8,20 @@ class Info(object):
 		self.dialogue = ["", "", "", "", ""]
 
 	def render(self):
-		print("HP: " + str(self.player.health) + "   AC: " + str(self.player.armor))
+		self.msg = "|  HP: " + str(self.player.health) + "   AC: " + str(self.player.armor) + "   LVL: " + str(self.player.level) + "  |"
+		
+		print("-" * (len(self.msg)))
 
-		print("\n")
+		print(self.msg)
+
+		print("-" * (len(self.msg)))
 
 	def render_dialogue(self, dialogue=""):
 		for d in self.dialogue:
-			print(d)
-			# if dialogue.strip != "":
-			# 	self.dialogue.append(dialogue)
-			# 	del self.dialogue[0]
+			print("|  " + d)
+
+		print()
+
 
 	def add_dialogue(self, dialogue):
 		if dialogue.strip != "":

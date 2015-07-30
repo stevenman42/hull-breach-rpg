@@ -119,7 +119,7 @@ class Game(object):
 
 def run():
 	guy = characters.Knight(None)
-	game = Game(guy, 20, 20, 5, 5)
+	game = Game(guy, 70, 20, 5, 5)
 	guy.game = game
 
 	inv = False

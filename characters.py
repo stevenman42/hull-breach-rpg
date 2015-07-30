@@ -1,12 +1,12 @@
 import entities
 
 class Character(entities.Entity):
-	def __init__(self, game, speed, armor, health, attack, hunger, xPos=0, yPos=0):
+	def __init__(self, game, speed, armor, health, damage, hunger, xPos=0, yPos=0):
 		self.game = game
 		self.speed = speed
 		self.armor = armor
 		self.health = health
-		self.attack = attack
+		self.damage = damage
 		self.xPos = xPos
 		self.yPos = yPos
 		self.level = 0
@@ -17,6 +17,8 @@ class Character(entities.Entity):
 
 	def attack(self,target,damage):
 		target.health -= damage
+		print("u dun it")
+		self.game.say("You whack the " + target.name)
 
 	def pick_up(self, item):
 		self.inventory.append(item.name)

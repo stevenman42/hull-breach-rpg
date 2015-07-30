@@ -2,14 +2,19 @@ class Entity(object):
 	"""This is the thing that everything is pretty much except for the stuff that isn't this"""
 	def __init__(self):
 		self.walkable = True
+		self.whackable = False
 
 	def move(self, game, deltaX, deltaY):
 
 		can_move = True
+		can_whack = False
 
 		for i in game.entities[self.yPos + deltaY][self.xPos + deltaX]:
 			if i.walkable == False:
 				can_move = False
+			if i.whackable == True:
+				can_move = False
+				can_whack = True
 
 		if can_move:
 
@@ -32,6 +37,14 @@ class Entity(object):
 				self.yPos -= deltaY
 				game.entities[self.yPos][self.xPos] = game.player
 				game.entity_icons[self.yPos][self.xPos] = game.player.icon
+
+		if can_whack:
+			print(game.player)
+			print(game)
+			thing = game.entities[self.yPos + deltaY][self.xPos + deltaX][0]
+			print(thing)
+			game.player.attack(thing, 10)
+
 
 
 class Book(Entity):

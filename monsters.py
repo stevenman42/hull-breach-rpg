@@ -1,15 +1,16 @@
 import entities
 
 class Monster(entities.Entity):
-	def __init__(self, speed, armor, health, attack, icon):
+	def __init__(self, speed, armor, health, damage, icon):
 		self.speed = speed
 		self.armor = armor
 		self.health = health
-		self.attack = attack
+		self.damage = damage
 		self.icon = icon
+		self.whackable = True
 
-	def attack(self,object,damage):
-		object.health -= damage
+	def attack(self,target,damage):
+		target.health -= damage
 
 	def move(self, game, deltaX, deltaY):
 		print("movin'")
