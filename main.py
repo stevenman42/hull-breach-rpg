@@ -1,9 +1,10 @@
-import os, sys
+import os, sys, random
 import input
 import characters
 import info
 import entities
 import monsters
+
 
 
 # the doodad that gets the keyboard input
@@ -49,8 +50,8 @@ class Game(object):
 		self.add_entity(0, 0, self.player)
 
 		# TEST CODE PLS IGNORE
-		self.add_entity(5, 5, entities.Book("Super red"))
-		self.add_entity(4, 4, monsters.Orc())
+		self.add_entity(5, 5, entities.Book("Super red", 5, 5))
+		self.add_entity(4, 4, monsters.Orc(4, 4))
 
 
 		self.say("Welcome to hull breach!  Watch out for hull breaches!")
@@ -116,6 +117,21 @@ class Game(object):
 
 	def tick(self):
 		self.render()
+		for entity in self.entities:
+			for thing in entity:
+				for thingy in thing:
+					try:
+						print(thingy.health)
+						if thingy.health < 0:
+							print("hm")
+							print(thingy.xPos)
+							self.remove_entity(thingy.xPos, thingy.yPos, thingy)
+							kill_adj = ["brutally", "efficiently", "swiftly", "messily", "violently", "cheerfully"][random.randint(0,5)]
+							kill_msg = ["murder", "slaughter", "destroy", "annihilate", "obliterate", "kill", "massacre"][random.randint(0,6)]
+							self.say("You " + kill_adj + " " + kill_msg + " the " + thingy.name)
+					except AttributeError:
+						# this occurs when the entity doesn't have any health, like a book or other item
+						pass
 
 def run():
 	guy = characters.Knight(None)

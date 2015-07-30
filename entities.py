@@ -1,8 +1,10 @@
 class Entity(object):
 	"""This is the thing that everything is pretty much except for the stuff that isn't this"""
-	def __init__(self):
+	def __init__(self, xPos, yPos):
 		self.walkable = True
 		self.whackable = False
+		self.xPos = xPos
+		self.yPos = yPos
 
 	def move(self, game, deltaX, deltaY):
 
@@ -49,8 +51,8 @@ class Entity(object):
 
 class Book(Entity):
 
-	def __init__(self, description):
-		super(Book, self).__init__()
+	def __init__(self, description, xPos, yPos):
+		super(Book, self).__init__(xPos, yPos)
 		self.description = description
 		self.name = "book"
 		self.icon = "B"
