@@ -49,6 +49,11 @@ class Game(object):
 					sys.stdout.write(self.map[i][j])
 			sys.stdout.write("\n")
 
+	def render_inventory(self):
+		os.system("clear")
+		for i in self.player.inventory:
+			print(i)
+
 
 
 	def tick(self):
@@ -56,6 +61,8 @@ class Game(object):
 
 def run():
 	game = Game(characters.Knight(), 20, 20, 5, 5)
+
+	inv = False
 
 	while 1:
 		inn = getch.__call__()
@@ -75,6 +82,15 @@ def run():
 			os.system("clear")
 			print("bai")
 			sys.exit()
+		elif inn == "i":
+			if not inv:
+				game.render_inventory()
+				inv = not inv
+			else:
+				game.tick()
+				inv = not inv
+
+
 		else:
 			pass
 

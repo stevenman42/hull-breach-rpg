@@ -9,8 +9,13 @@ class Character(entities.Entity):
 		self.xPos = xPos
 		self.yPos = yPos
 
+		self.inventory = []
+
 	def attack(self,target,damage):
 		target.health -= damage
+
+	def pick_up(self, item):
+		self.inventory.append(item)
 
 
 
