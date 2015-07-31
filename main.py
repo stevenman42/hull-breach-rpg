@@ -187,11 +187,8 @@ def run():
 			game.tick()
 		elif inn == " ":
 			game.tick()
-
-
 		else:
-			pass
-
+			game.tick()
 
 
 run()
