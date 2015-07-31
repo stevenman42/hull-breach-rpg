@@ -14,7 +14,7 @@ class Monster(entities.Entity):
 
 	def attack(self,target,damage):
 
-		self.game.say("In attacks!")
+		self.game.say("It attacks for " + str(damage) + " damage")
 		target.health -= damage
 
 	def move(self, game, deltaX, deltaY):
@@ -80,7 +80,7 @@ class Orc(Monster):
 	"""docstring for Orc"""
 	def __init__(self, xPos, yPos):
 		print("created an Orc")
-		super(Orc, self).__init__(7, 3, 2, 4, 'o', xPos, yPos)
+		super(Orc, self).__init__(7, 3, 40, 4, 'o', xPos, yPos)
 		self.walkable = False
 		self.name = "Orc"
 

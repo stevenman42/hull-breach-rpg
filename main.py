@@ -40,7 +40,6 @@ class Game(object):
 			for j in range(width):
 				self.map[i].append(".")
 
-				# HAHAH 3D MATRICES WHAT R U GONNA DO ABOUT IT
 				self.entities[i].append([])
 				self.entity_icons[i].append([])
 
@@ -50,11 +49,12 @@ class Game(object):
 		self.width = len(self.map[0])
 
 
-		self.add_entity(0, 0, self.player)
+		self.add_entity(1, 1, self.player)
 
 		# TEST CODE PLS IGNORE
-		#self.add_entity(5, 5, entities.Book("Super red", 5, 5))
-		self.add_entity(4, 4, monsters.Orc(4, 4))
+		self.add_entity(5, 5, entities.Book("Super red", 5, 5))
+		self.add_entity(4, 9, entities.Book("Plaid", 4, 9))
+		self.add_entity(10, 4, monsters.Orc(10, 4))
 
 
 		self.say("Welcome to hull breach!  Watch out for hull breaches!")
@@ -110,13 +110,19 @@ class Game(object):
 			sys.stdout.write("\n")
 
 
-	def render_inventory(self):
+	def render_inventory(self, msg=""):
 		os.system("clear")
-		print("Inventory")
-		print("_" * 20)
-		print("|")
-		for i in self.player.inventory:
-			print("|   " + i + "   |")
+		print()
+		if msg != "":
+			print(msg)
+		print("          Inventory")
+		print("_" * 30)
+		print("|" + " " * 28 + "|")
+		for i in range(len(self.player.inventory)):
+			item_len = len("| " + str(i + 1) + ":  " + self.player.inventory[i] + "   |")
+			padding = int((32 - item_len) / 2)
+			print("| " + " " * padding + str(i + 1) + ":  " + self.player.inventory[i]  + " " * (padding - 2) + "   |")
+		print("|" + "_" * 28 + "|")
 
 	def say(self, dialogue):
 		self.info.add_dialogue(dialogue)
@@ -142,14 +148,16 @@ class Game(object):
 						pass
 					#thingy.tick(self)
 
+
 		for entity in self.entity_array:
 			entity.tick(self)
+
 
 		self.time += 1
 
 		self.render()
 def run():
-	guy = characters.Knight(None)
+	guy = characters.Knight(None, 1, 1)
 	game = Game(guy, 70, 20, 5, 5)
 	guy.game = game
 
@@ -185,10 +193,24 @@ def run():
 				game.say("you picked up the " + game.get_entity(game.player.xPos, game.player.yPos, -2).description + " " + game.get_entity(game.player.xPos, game.player.yPos, -2).name)
 				game.player.pick_up(game.get_entity(game.player.xPos, game.player.yPos, -2))
 			game.tick()
+		elif inn == "a":
+
+			#inn = getch.__call__()
+			game.render_inventory("What do you want to user or apply?")
+			inn = False
+			while inn == False:
+				inn = getch.__call__()
+				game.render_inventory("What do you want to use or apply?")
+			if inn == "1":
+				game.say("You use 1")
+				game.render()
+			else:
+				game.say("you don't have that, silly")
+				game.render()
 		elif inn == " ":
 			game.tick()
 		else:
-			game.tick()
+			pass
 
 
 run()

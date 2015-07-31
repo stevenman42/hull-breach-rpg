@@ -6,6 +6,7 @@ class Entity(object):
 		self.xPos = xPos
 		self.yPos = yPos
 
+
 	def move(self, game, deltaX, deltaY):
 
 		can_move = True
@@ -21,14 +22,14 @@ class Entity(object):
 				can_whack = True
 
 		if can_move:
-
+			game.render()
 			try:
-				game.entities[self.yPos][self.xPos].remove(self)
-				game.entity_icons[self.yPos][self.xPos].remove(self.icon)
+				print("trying to remove the entity at " + str(self.xPos) + " and " + str(self.yPos))
+				print(game.entities[self.xPos][self.yPos])
+				game.remove_entity(self.xPos, self.yPos, self)
 				self.xPos += deltaX
 				self.yPos += deltaY
-				game.entities[self.yPos][self.xPos].append(self)
-				game.entity_icons[self.yPos][self.xPos].append(self.icon)
+				game.add_entity(self.xPos, self.yPos, self)
 				for i in game.entities[self.yPos][self.xPos]:
 					if i != game.player:
 						print(game.entities[self.yPos][self.xPos])
@@ -65,5 +66,14 @@ class Book(Entity):
 
 class NullEntity(Entity):
 
-	def __init__(self):
+	def __init__(self, xPos, yPos):
+		super(NullEntity, self).__init__(xPos, yPos)
 		self.icon = " "
+
+class WallEntity(Entity):
+
+	def __init__(self, type, xPos, yPos):
+		super(WallEntity, self).__init__(xPos, yPos)
+		self.icon = "#"
+		self.type = type
+		self.walkable = False
