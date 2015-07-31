@@ -31,6 +31,8 @@ class Game(object):
 		self.info = info.Info(self.player)
 		self.entity_array = []
 
+		self.time = 0
+
 		for i in range(height):
 			self.map.append([])
 			self.entities.append([])
@@ -102,7 +104,11 @@ class Game(object):
 				except IndexError:
 					sys.stdout.write(".")
 
+			if i == self.height - 1:
+				print("    " + str(self.time))
+
 			sys.stdout.write("\n")
+
 
 	def render_inventory(self):
 		os.system("clear")
@@ -138,6 +144,8 @@ class Game(object):
 
 		for entity in self.entity_array:
 			entity.tick(self)
+
+		self.time += 1
 
 		self.render()
 def run():
