@@ -40,8 +40,12 @@ class Game(object):
 			for j in range(width):
 				self.map[i].append(".")
 
-				self.entities[i].append([])
-				self.entity_icons[i].append([])
+				if i == 0 or i == height - 1 or j == width - 1 or j == 0:
+					self.entities[i].append([entities.WallEntity("unbreakable", j, i)])
+					self.entity_icons[i].append(["#"])
+				else:
+					self.entities[i].append([])
+					self.entity_icons[i].append([])
 
 
 
@@ -53,6 +57,8 @@ class Game(object):
 
 		# TEST CODE PLS IGNORE
 		self.add_entity(5, 5, entities.Book("Super red", 5, 5))
+		self.add_entity(5, 5, entities.Book("Swell", 5, 5))
+		self.add_entity(5, 5, entities.Book("Greasy", 5, 5))
 		self.add_entity(4, 9, entities.Book("Plaid", 4, 9))
 		self.add_entity(10, 4, monsters.Orc(10, 4))
 

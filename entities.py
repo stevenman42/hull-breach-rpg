@@ -25,7 +25,7 @@ class Entity(object):
 			game.render()
 			try:
 				print("trying to remove the entity at " + str(self.xPos) + " and " + str(self.yPos))
-				print(game.entities[self.xPos][self.yPos])
+				print(game.entities[self.yPos][self.xPos])
 				game.remove_entity(self.xPos, self.yPos, self)
 				self.xPos += deltaX
 				self.yPos += deltaY
@@ -37,11 +37,12 @@ class Entity(object):
 							game.say("You see here a " + game.entities[self.yPos][self.xPos][0].description + " " + game.entities[self.yPos][self.xPos][0].name)
 						else:
 							game.say("You see here several items")
+							break
 			except IndexError:
 				self.xPos -= deltaX
 				self.yPos -= deltaY
-				game.entities[self.yPos][self.xPos].append = game.player
-				game.entity_icons[self.yPos][self.xPos].append = game.player.icon
+				game.entities[self.yPos][self.xPos].append(game.player)
+				game.entity_icons[self.yPos][self.xPos].append(game.player.icon)
 
 		if can_whack:
 			print(game.player)
