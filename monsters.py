@@ -13,19 +13,36 @@ class Monster(entities.Entity):
 		
 
 	def attack(self,target,damage):
+
+		self.game.say("In attacks!")
 		target.health -= damage
 
 	def move(self, game, deltaX, deltaY):
-		print("movin'")
-		game.remove_entity(self.xPos, self.yPos, self)
-		self.xPos += deltaX
-		self.yPos += deltaY
-		game.add_entity(self.xPos, self.yPos, self)
-		#game.entity_icons[self.yPos][self.xPos].append(self.icon)
+
+		can_move = True
+		can_whack = False
+
+		for i in game.entities[self.yPos + deltaY][self.xPos + deltaX]:
+			if i.walkable == False:
+				can_move = False
+			if i.whackable == True:
+				can_move = False
+				can_whack = True
+
+		if can_move:
+
+			game.remove_entity(self.xPos, self.yPos, self)
+			self.xPos += deltaX
+			self.yPos += deltaY
+			game.add_entity(self.xPos, self.yPos, self)
+			#game.entity_icons[self.yPos][self.xPos].append(self.icon)
+
+		if can_whack:
+			self.attack(game.entities[self.yPos + deltaY][self.xPos + deltaX][-1], 5)
 
 	def tick(self, game):
-		print("tick")
 		rand = random.randint(0, 1)
+		self.game = game
 
 		if rand == 1:
 			if game.player.xPos > self.xPos:

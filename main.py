@@ -119,18 +119,15 @@ class Game(object):
 
 
 	def tick(self):
-		self.render()
-
-		for entity in self.entity_array:
-			entity.tick(self)
 
 		for row in self.entities:
-			#print(row)
 			for col in row:
 				for thingy in col:
 					try:
 						if thingy.health < 0:
 							self.remove_entity(thingy.xPos, thingy.yPos, thingy)
+							if thingy == self.player:
+								self.say("Ur ded rip in peace")
 							kill_adj = ["brutally", "efficiently", "swiftly", "messily", "violently", "cheerfully"][random.randint(0,5)]
 							kill_msg = ["murder", "slaughter", "destroy", "annihilate", "obliterate", "kill", "massacre"][random.randint(0,6)]
 							self.say("You " + kill_adj + " " + kill_msg + " the " + thingy.name)
@@ -139,7 +136,10 @@ class Game(object):
 						pass
 					#thingy.tick(self)
 
+		for entity in self.entity_array:
+			entity.tick(self)
 
+		self.render()
 def run():
 	guy = characters.Knight(None)
 	game = Game(guy, 70, 20, 5, 5)
@@ -176,6 +176,8 @@ def run():
 			if game.get_entity_icon(game.player.xPos, game.player.yPos, -2) != "0" and game.get_entity_icon(game.player.xPos, game.player.yPos, -2) != " ":
 				game.say("you picked up the " + game.get_entity(game.player.xPos, game.player.yPos, -2).description + " " + game.get_entity(game.player.xPos, game.player.yPos, -2).name)
 				game.player.pick_up(game.get_entity(game.player.xPos, game.player.yPos, -2))
+			game.tick()
+		elif inn == " ":
 			game.tick()
 
 

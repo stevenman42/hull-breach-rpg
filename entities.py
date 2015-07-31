@@ -11,7 +11,9 @@ class Entity(object):
 		can_move = True
 		can_whack = False
 
+		print(game.entities[self.yPos + deltaY][self.xPos + deltaX])
 		for i in game.entities[self.yPos + deltaY][self.xPos + deltaX]:
+			print(i)
 			if i.walkable == False:
 				can_move = False
 			if i.whackable == True:

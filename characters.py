@@ -14,6 +14,8 @@ class Character(entities.Entity):
 		self.inventory = []
 
 		self.icon = "0"
+		self.walkable = False
+		self.whackable = True
 
 	def attack(self,target,damage):
 		target.health -= damage
