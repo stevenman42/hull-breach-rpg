@@ -1,4 +1,5 @@
 import entities
+import random
 
 class Monster(entities.Entity):
 	def __init__(self, speed, armor, health, damage, icon, xPos, yPos):
@@ -16,13 +17,47 @@ class Monster(entities.Entity):
 
 	def move(self, game, deltaX, deltaY):
 		print("movin'")
-		#game.map[self.yPos][self.xPos] = "."
-		game.entities[self.yPos][self.xPos] = None
-		game.entity_tiles[self.yPos][self.xPos] = " "
+		game.remove_entity(self.xPos, self.yPos, self)
 		self.xPos += deltaX
 		self.yPos += deltaY
-		game.entities[self.yPos][self.xPos] = game.player
-		game.entity_tiles[self.yPos][self.xPos] = game.player.icon
+		game.add_entity(self.xPos, self.yPos, self)
+		#game.entity_icons[self.yPos][self.xPos].append(self.icon)
+
+	def tick(self, game):
+		print("tick")
+		rand = random.randint(0, 1)
+
+		if rand == 1:
+			if game.player.xPos > self.xPos:
+				self.move(game, 1, 0)
+				return
+			elif game.player.xPos < self.xPos:
+				self.move(game, -1, 0)
+				return
+
+			if game.player.yPos > self.yPos:
+				self.move(game, 0, 1)
+				return
+			elif game.player.yPos < self.yPos:
+				self.move(game, 0, -1)
+				return
+
+		elif rand == 0:
+
+			if game.player.yPos > self.yPos:
+				self.move(game, 0, 1)
+				return
+			elif game.player.yPos < self.yPos:
+				self.move(game, 0, -1)
+				return
+			if game.player.xPos > self.xPos:
+				self.move(game, 1, 0)
+				return
+			elif game.player.xPos < self.xPos:
+				self.move(game, -1, 0)
+				return
+
+
 
 class Orc(Monster):
 	"""docstring for Orc"""

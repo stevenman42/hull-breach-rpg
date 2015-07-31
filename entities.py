@@ -37,8 +37,8 @@ class Entity(object):
 			except IndexError:
 				self.xPos -= deltaX
 				self.yPos -= deltaY
-				game.entities[self.yPos][self.xPos] = game.player
-				game.entity_icons[self.yPos][self.xPos] = game.player.icon
+				game.entities[self.yPos][self.xPos].append = game.player
+				game.entity_icons[self.yPos][self.xPos].append = game.player.icon
 
 		if can_whack:
 			print(game.player)
@@ -46,6 +46,9 @@ class Entity(object):
 			thing = game.entities[self.yPos + deltaY][self.xPos + deltaX][0]
 			print(thing)
 			game.player.attack(thing, 10)
+
+	def tick(self, game):
+		pass
 
 
 

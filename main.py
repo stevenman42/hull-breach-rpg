@@ -29,6 +29,7 @@ class Game(object):
 		self.entities = []
 		self.entity_icons = []
 		self.info = info.Info(self.player)
+		self.entity_array = []
 
 		for i in range(height):
 			self.map.append([])
@@ -50,7 +51,7 @@ class Game(object):
 		self.add_entity(0, 0, self.player)
 
 		# TEST CODE PLS IGNORE
-		self.add_entity(5, 5, entities.Book("Super red", 5, 5))
+		#self.add_entity(5, 5, entities.Book("Super red", 5, 5))
 		self.add_entity(4, 4, monsters.Orc(4, 4))
 
 
@@ -61,10 +62,12 @@ class Game(object):
 	def add_entity(self, xPos, yPos, entity):
 		self.entities[yPos][xPos].append(entity)
 		self.entity_icons[yPos][xPos].append(entity.icon)
+		self.entity_array.append(entity)
 
 	def remove_entity(self, xPos, yPos, entity):
 		self.entities[yPos][xPos].remove(entity)
 		self.entity_icons[yPos][xPos].remove(entity.icon)
+		self.entity_array.remove(entity)
 
 	def get_entity(self, xPos, yPos, zPos):
 		try:
@@ -117,14 +120,16 @@ class Game(object):
 
 	def tick(self):
 		self.render()
-		for entity in self.entities:
-			for thing in entity:
-				for thingy in thing:
+
+		for entity in self.entity_array:
+			entity.tick(self)
+
+		for row in self.entities:
+			#print(row)
+			for col in row:
+				for thingy in col:
 					try:
-						print(thingy.health)
 						if thingy.health < 0:
-							print("hm")
-							print(thingy.xPos)
 							self.remove_entity(thingy.xPos, thingy.yPos, thingy)
 							kill_adj = ["brutally", "efficiently", "swiftly", "messily", "violently", "cheerfully"][random.randint(0,5)]
 							kill_msg = ["murder", "slaughter", "destroy", "annihilate", "obliterate", "kill", "massacre"][random.randint(0,6)]
@@ -132,6 +137,8 @@ class Game(object):
 					except AttributeError:
 						# this occurs when the entity doesn't have any health, like a book or other item
 						pass
+					#thingy.tick(self)
+
 
 def run():
 	guy = characters.Knight(None)
