@@ -5,7 +5,7 @@ import string
 class Info(object):
 	def __init__(self, player):
 		self.player = player
-		self.dialogue = ["", "", "", "", ""]
+		self.dialogue = ["", "", "", "", "", ""]
 
 	def render(self):
 		self.msg = "|  HP: " + str(self.player.health) + "   AC: " + str(self.player.armor) + "   LVL: " + str(self.player.level) + "  |"

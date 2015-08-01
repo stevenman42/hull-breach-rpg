@@ -1,3 +1,5 @@
+import random
+
 class Entity(object):
 	"""This is the thing that everything is pretty much except for the stuff that isn't this"""
 	def __init__(self, xPos, yPos):
@@ -14,7 +16,6 @@ class Entity(object):
 
 		print(game.entities[self.yPos + deltaY][self.xPos + deltaX])
 		for i in game.entities[self.yPos + deltaY][self.xPos + deltaX]:
-			print(i)
 			if i.walkable == False:
 				can_move = False
 			if i.whackable == True:
@@ -24,8 +25,6 @@ class Entity(object):
 		if can_move:
 			game.render()
 			try:
-				print("trying to remove the entity at " + str(self.xPos) + " and " + str(self.yPos))
-				print(game.entities[self.yPos][self.xPos])
 				game.remove_entity(self.xPos, self.yPos, self)
 				self.xPos += deltaX
 				self.yPos += deltaY
@@ -33,23 +32,25 @@ class Entity(object):
 				for i in game.entities[self.yPos][self.xPos]:
 					if i != game.player:
 						print(game.entities[self.yPos][self.xPos])
-						if not len(game.entities[self.yPos][self.xPos]) > 3:
+						if len(game.entities[self.yPos][self.xPos]) == 2:
 							game.say("You see here a " + game.entities[self.yPos][self.xPos][0].description + " " + game.entities[self.yPos][self.xPos][0].name)
-						else:
+						if len(game.entities[self.yPos][self.xPos]) == 3:
+							game.say("You see here a " + game.entities[self.yPos][self.xPos][0].description + " " + game.entities[self.yPos][self.xPos][0].name)
+							game.say("You also see a " + game.entities[self.yPos][self.xPos][1].description + " " + game.entities[self.yPos][self.xPos][1].name)
+						elif len(game.entities[self.yPos][self.xPos]) > 3:
 							game.say("You see here several items")
 							break
 			except IndexError:
 				self.xPos -= deltaX
 				self.yPos -= deltaY
-				game.entities[self.yPos][self.xPos].append(game.player)
-				game.entity_icons[self.yPos][self.xPos].append(game.player.icon)
+				game.add_entity(self.xPos, self.yPos, game.player)
 
 		if can_whack:
 			print(game.player)
 			print(game)
 			thing = game.entities[self.yPos + deltaY][self.xPos + deltaX][0]
 			print(thing)
-			game.player.attack(thing, 10)
+			game.player.attack(thing, game.player.damage + random.randint(-2,2))
 
 	def tick(self, game):
 		pass
@@ -58,7 +59,7 @@ class Entity(object):
 
 class Book(Entity):
 
-	def __init__(self, description, xPos, yPos):
+	def __init__(self, description, xPos=None, yPos=None):
 		super(Book, self).__init__(xPos, yPos)
 		self.description = description
 		self.name = "book"

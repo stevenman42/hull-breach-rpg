@@ -1,5 +1,5 @@
 import os, sys, random
-import input
+import input as key_input
 import characters
 import info
 import entities
@@ -8,7 +8,7 @@ import monsters
 
 
 # the doodad that gets the keyboard input
-getch = input._GetchUnix()
+getch = key_input._GetchUnix()
 
 
 # for i in range(10):
@@ -60,7 +60,8 @@ class Game(object):
 		self.add_entity(5, 5, entities.Book("Swell", 5, 5))
 		self.add_entity(5, 5, entities.Book("Greasy", 5, 5))
 		self.add_entity(4, 9, entities.Book("Plaid", 4, 9))
-		self.add_entity(10, 4, monsters.Orc(10, 4))
+		self.add_entity(20, 4, monsters.Orc(20, 4))
+		self.add_entity(20, 5, monsters.Monkey(20, 5))
 
 
 		self.say("Welcome to hull breach!  Watch out for hull breaches!")
@@ -124,19 +125,33 @@ class Game(object):
 		print("          Inventory")
 		print("_" * 30)
 		print("|" + " " * 28 + "|")
-		for i in range(len(self.player.inventory)):
-			item_len = len("| " + str(i + 1) + ":  " + self.player.inventory[i] + "   |")
+		for i in range(len(self.player.inventory.items)):
+			item_len = len("| " + str(i + 1) + ":  " + self.player.inventory.items[i].description + " " + self.player.inventory.items[i].name + "   |")
 			padding = int((32 - item_len) / 2)
-			print("| " + " " * padding + str(i + 1) + ":  " + self.player.inventory[i]  + " " * (padding - 2) + "   |")
+			print("| " + " " * padding + str(i + 1) + ":  " + self.player.inventory.items[i].description + " " + self.player.inventory.items[i].name + " " * (padding - 2) + "   |")
 		print("|" + "_" * 28 + "|")
 
 	def say(self, dialogue):
 		self.info.add_dialogue(dialogue)
 
+	def hull_breach(self):
+		os.system("clear")
+		print("OH NO")
+		a = input("")
+		print("IT'S A...")
+		a = input("")
+		print(" _   _ _   _ _     _       ____  ____  _____    _    ____ _   _ ")
+		print("| | | | | | | |   | |     | __ )|  _ \| ____|  / \  / ___| | | |")
+		print("| |_| | | | | |   | |     |  _ \| |_) |  _|   / _ \| |   | |_| |")
+		print("|  _  | |_| | |___| |___  | |_) |  _ <| |___ / ___ \ |___|  _  |")
+		print("|_| |_|\___/|_____|_____| |____/|_| \_\_____/_/   \_\____|_| |_|")
 
 
+		a = input()
+		self.tick()
 
 	def tick(self):
+
 
 		for row in self.entities:
 			for col in row:
@@ -144,8 +159,6 @@ class Game(object):
 					try:
 						if thingy.health < 0:
 							self.remove_entity(thingy.xPos, thingy.yPos, thingy)
-							if thingy == self.player:
-								self.say("Ur ded rip in peace")
 							kill_adj = ["brutally", "efficiently", "swiftly", "messily", "violently", "cheerfully"][random.randint(0,5)]
 							kill_msg = ["murder", "slaughter", "destroy", "annihilate", "obliterate", "kill", "massacre"][random.randint(0,6)]
 							self.say("You " + kill_adj + " " + kill_msg + " the " + thingy.name)
@@ -158,10 +171,17 @@ class Game(object):
 		for entity in self.entity_array:
 			entity.tick(self)
 
+		if self.player.health <= 0:
+			self.say("ur ded rip in peace")
+			self.remove_entity(self.player.xPos, self.player.yPos, self.player)
 
 		self.time += 1
 
 		self.render()
+
+		if random.randint(1, 100) == 1:
+			self.hull_breach()
+
 def run():
 	guy = characters.Knight(None, 1, 1)
 	game = Game(guy, 70, 20, 5, 5)
@@ -202,7 +222,7 @@ def run():
 		elif inn == "a":
 
 			#inn = getch.__call__()
-			game.render_inventory("What do you want to user or apply?")
+			game.render_inventory("What do you want to use or apply?")
 			inn = False
 			while inn == False:
 				inn = getch.__call__()
@@ -213,6 +233,29 @@ def run():
 			else:
 				game.say("you don't have that, silly")
 				game.render()
+
+		elif inn == "t":
+			game.render_inventory("What do you want to throw?")
+			inn = False
+			while inn == False:
+				inn = getch.__call__()
+				game.render_inventory("What do you want to throw?")
+			if inn == "1":
+				game.render()
+				dum = False
+				while dum == False:
+					dum = getch.__call__()
+					game.say("What direction do you want to throw the " + game.player.inventory.items[0].description + " " + game.player.inventory.items[0].name + "?")
+					game.render()
+				print(dum + "Aoeu")
+				if dum == "down":
+					print("HUEHUEHUEHUEH")
+					game.set_entity(game.player.xPos, game.player.yPos + game.player.strength * 3 + random.randint(-1, 2), game.player.inventory.items[0])
+					game.player.inventory.remove_item(game.player.inventory.items[0])
+					game.render()
+
+
+
 		elif inn == " ":
 			game.tick()
 		else:

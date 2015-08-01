@@ -10,11 +10,12 @@ class Monster(entities.Entity):
 		self.damage = damage
 		self.icon = icon
 		self.whackable = True
+		self.type = "Monster"
 		
 
 	def attack(self,target,damage):
 
-		self.game.say("It attacks for " + str(damage) + " damage")
+		self.game.say("The " + self.name + " attacks for " + str(damage) + " damage")
 		target.health -= damage
 
 	def move(self, game, deltaX, deltaY):
