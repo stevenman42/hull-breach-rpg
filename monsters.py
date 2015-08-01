@@ -81,7 +81,12 @@ class Orc(Monster):
 	"""docstring for Orc"""
 	def __init__(self, xPos, yPos):
 		print("created an Orc")
-		super(Orc, self).__init__(7, 3, 40, 4, 'o', xPos, yPos)
+		speed = 7
+		armor = 3
+		health = 40
+		damage = 4
+		icon = 'o'
+		super(Orc, self).__init__(speed, armor, health, damage, icon, xPos, yPos)
 		self.walkable = False
 		self.name = "Orc"
 
@@ -89,7 +94,12 @@ class Monkey(Monster):
 	"""docstring for Monkey"""
 	def __init__(self, xPos, yPos):
 		print("created a Monkey")
-		super(Monkey, self).__init__(5, 3, 4, 5, 'm', xPos, yPos)
+		speed = 5
+		armor = 3
+		health = 4
+		damage = 5
+		icon = 'm'
+		super(Monkey, self).__init__(speed, armor, health, damage, icon, xPos, yPos)
 		self.walkable = False
 		self.name = "Monkey"
 
@@ -97,6 +107,11 @@ class Dragon(Monster):
 	"""docstring for Dragon"""
 	def __init__(self, xPos, yPos):
 		print("created a Dragon")
-		super(Dragon, self).__init__(3, 7, 10, 7, 'D', xPos, yPos)
+		speed = 3
+		armor = 7
+		health = 10
+		damage = 7
+		icon = 'D'
+		super(Dragon, self).__init__(speed, armor, health, damage, icon, xPos, yPos)
 		self.walkable = False
 		self.name = "Dragon"

@@ -17,15 +17,13 @@ class Character(entities.Entity):
 		self.yPos = yPos
 		self.level = 0
 
-		
-
-
 
 		self.icon = "0"
 		self.walkable = False
 		self.whackable = True
 
 	def attack(self,target,damage):
+		damage -= target.armor
 		target.health -= damage
 		self.game.say("You whack the " + target.name + " for " + str(damage) + " damage")
 
@@ -38,28 +36,39 @@ class Character(entities.Entity):
 class Knight(Character):
 	"""docstring for Knight"""
 	def __init__(self, game, xPos, yPos):
-		print("created a Knight")
-		super(Knight, self).__init__(game, 3, 8, 60, 15, 10, 2, xPos, yPos)
+
+		speed = 3
+		armor = 8
+		health = 60
+		damage = 15
+		hunger = 10
+		strength = 2
+
+		super(Knight, self).__init__(game, speed, armor, health, damage, hunger, strength, xPos, yPos)
 		self.inventory = inventory.Inventory(entities.Book("Great"))
+		self.name = "Knight"
 
 class Wizard(Character):
 	"""docstring for Wizard"""
 	def __init__(self, game, xPos, yPos):
-		print("created a wizard")
+
 		super(Wizard, self).__init__(game, 5, 3, 8, 7, 1, 10)
 		self.inventory = inventory.Inventory("Wand")
+		self.name = "Wizard"
 
 class Gunner(Character):
 	"""docstring for Gunner"""
 	def __init__(self, game, xPos, yPos):
-		print("created a Gunner")
+
 		super(Gunner, self).__init__(game, 6, 5, 5, 8, 1, 10)
 		self.inventory = inventory.Inventory("Gun")
+		self.name = "Gunner"
 
 class Rogue(Character):
 	"""docstring for Wizard"""
 	def __init__(self, game, xPos, yPos):
-		print("created a Rogue")
+
 		super(Rogue, self).__init__(game, 10, 5, 8, 2, 0, 10)
 		self.inventory = inventory.Inventory("Knife")
+		self.name = "Rogue"
 

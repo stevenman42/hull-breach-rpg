@@ -4,50 +4,78 @@ import characters
 from colors import *
 import sys
 import main
+import console
 
 getch = key_input._GetchUnix()
 
 class Title(object):
 	def __init__(self):
-		self.options = {1: "New game", 2: "Settings", 3: "Quit"}
+		self.options = ["New game", "Load game", "Settings", "Quit"]
+		self.option = 0
+		self.selected_option = self.options[self.option]
 
 	def render(self):
 		os.system("clear")
+
+		
+		inn = None
+		while inn != " ":
+			self.display_title()
+			self.display_options()
+			inn = getch.__call__()
+			if inn == "down":
+				os.system("clear")
+				if (self.option < len(self.options)):
+					self.option += 1
+					try:
+						self.selected_option = self.options[self.option]
+					except IndexError:
+						self.option -= 1
+			elif inn == "up":
+				os.system("clear")
+				if (self.option > 0):
+					self.option -= 1
+					try:
+						self.selected_option = self.options[self.option]
+					except IndexError:
+						self.option += 1
+
+
+		if self.selected_option == "Settings":
+			print("NO SETTINGS RIGHT NOW")
+		elif self.selected_option == "New game":
+			self.new_game()
+		elif self.selected_option == "Load game":
+			print("CAN'T LOAD GAMES RIGHT NOW")
+		elif self.selected_option == "Quit":
+			sys.exit()
+
+	def display_title(self):
 		print(color.RED + color.BOLD + "_ _ _ ____ _    ____ ____ _  _ ____    ___ ____    _  _ _  _ _    _       ___  ____ ____ ____ ____ _  _")
 		print("| | | |___ |    |    |  | |\/| |___     |  |  |    |__| |  | |    |       |__] |__/ |___ |__| |    |__|")
 		print("|_|_| |___ |___ |___ |__| |  | |___     |  |__|    |  | |__| |___ |___    |__] |  \ |___ |  | |___ |  |" + color.END)
-		print()
-
-		#self.display_options()
-		inn = None
-		while inn == None:
-			self.display_options()
-			inn = self.get_input()
-
-		if inn == "Settings":
-			print("NO SETTINGS RIGHT NOW")
-		elif inn == "New game":
-			self.new_game()
-		elif inn == "Quit":
-			sys.exit()
+		print("\n")
 
 	def display_options(self):
-		for option in self.options.keys():
-			print(str(option) + ": " + self.options[option])
+		for option in self.options:
+			(width, height) = console.getTerminalSize()
+
+			buffer = " " * int((width - len(option)) / 2)
+			if option == self.selected_option:
+				print(color.BLUE + color.BOLD + buffer + option + color.END)
+			else:
+				print(buffer + option)
+
+			print()
 
 	def get_input(self):
 		inn = False
 		while inn == False:
 			inn = getch.__call__()
+			print(inn)
+			if inn == " ":
+				print("tru")
 
-		try:
-			return self.options[int(inn)]
-		except KeyError:
-			print("NO")
-			return None
-		except ValueError:
-			print("NO")
-			return None
 
 	def new_game(self):
 		os.system("clear")
@@ -62,6 +90,7 @@ class Title(object):
 		inn = None
 		while inn == None:
 			inn = getch.__call__()
+			print(inn)
 
 		print()
 		

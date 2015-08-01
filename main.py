@@ -65,6 +65,7 @@ class Game(object):
 
 
 		self.say("Welcome to hull breach!  Watch out for hull breaches!")
+		self.say("""3 years ago, you retired from your job as a """ + self.player.name.lower() + """.  After a period of homelessness, you find yourself working on a submarine off the coast of Siberia as a result of a brush with the Russian mafia.  The submarine you work on contains experiments involving the genetic mutation of animals.  Everything was going swell, until one day, after a lazy technician forgot to make his inspection of the hull, there was a breach, and now the cold Siberian sea is leaking into the submarine.  Nearly everyone on the sub is dead, so it is up to you to navigate through the rooms of the submarine and find the hull breach and patch it before it's too late.""")
 		self.render()
 		
 
