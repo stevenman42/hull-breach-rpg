@@ -1,6 +1,7 @@
 # this is the like stuff that goes above the game in nethack; the name, attributes and whatnot
 
 import string
+from colors import *
 
 class Info(object):
 	def __init__(self, player):
@@ -18,7 +19,7 @@ class Info(object):
 
 	def render_dialogue(self, dialogue=""):
 		for d in self.dialogue:
-			print("|  " + d)
+			print(color.WHITE + "|  " + d + color.END)
 
 		print()
 

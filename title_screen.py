@@ -72,9 +72,9 @@ class Title(object):
 			if option == self.selected_option:
 				print(color.BLUE + color.BOLD + buffer + option + color.END)
 			else:
-				print(buffer + option)
+				print(color.YELLOW + buffer + option + color.END)
 
-			print()
+			print("")
 
 	def get_input(self):
 		inn = False
@@ -87,7 +87,7 @@ class Title(object):
 
 	def new_game(self):
 		os.system("clear")
-		name = input(color.DARKCYAN + "What is your name? " + color.END)
+		name = raw_input(color.DARKCYAN + "What is your name? " + color.END)
 		print(color.DARKCYAN + "Hi " + color.END + name + color.DARKCYAN + "!\n" + color.END)
 
 		print(color.BLUE + "What class are you? " + color.END)
@@ -100,11 +100,11 @@ class Title(object):
 			inn = getch.__call__()
 			print(inn)
 
-		print()
+		print("")
 		
 		print(color.BLUE + "You are a " + characters.charlist[int(inn) - 1] + "! Doot doot" + color.END) 
 
-		a = input()
+		a = raw_input()
 
 		if inn == "1":
 			main.run(characters.Knight(None, 1, 1))
