@@ -15,11 +15,13 @@ class Title(object):
 		self.selected_option = self.options[self.option]
 
 	def render(self):
+
 		os.system("clear")
 
 		
 		inn = None
 		while inn != " ":
+			
 			self.display_title()
 			self.display_options()
 			inn = getch.__call__()
@@ -51,9 +53,15 @@ class Title(object):
 			sys.exit()
 
 	def display_title(self):
-		print(color.RED + color.BOLD + "_ _ _ ____ _    ____ ____ _  _ ____    ___ ____    _  _ _  _ _    _       ___  ____ ____ ____ ____ _  _")
-		print("| | | |___ |    |    |  | |\/| |___     |  |  |    |__| |  | |    |       |__] |__/ |___ |__| |    |__|")
-		print("|_|_| |___ |___ |___ |__| |  | |___     |  |__|    |  | |__| |___ |___    |__] |  \ |___ |  | |___ |  |" + color.END)
+		(width, height) = console.getTerminalSize()
+		vert_buffer = "\n" * int((height)/2 - 8)
+		print(vert_buffer)
+		buffer = " " * int((width - len("_ _ _ ____ _    ____ ____ _  _ ____    ___ ____    _  _ _  _ _    _       ___  ____ ____ ____ ____ _  _")) / 2)
+
+
+		print(color.RED + color.BOLD + buffer + "_ _ _ ____ _    ____ ____ _  _ ____    ___ ____    _  _ _  _ _    _       ___  ____ ____ ____ ____ _  _")
+		print(buffer + "| | | |___ |    |    |  | |\/| |___     |  |  |    |__| |  | |    |       |__] |__/ |___ |__| |    |__|")
+		print(buffer + "|_|_| |___ |___ |___ |__| |  | |___     |  |__|    |  | |__| |___ |___    |__] |  \ |___ |  | |___ |  |" + color.END)
 		print("\n")
 
 	def display_options(self):
