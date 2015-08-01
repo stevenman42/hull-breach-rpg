@@ -1,6 +1,11 @@
 import entities
 import inventory
 
+
+# right now this is only used for the title sequence
+# it's just a list of all the choices for characters
+charlist = ["Knight", "Wizard", "Gunner", "Rogue"]
+
 class Character(entities.Entity):
 	def __init__(self, game, speed, armor, health, damage, hunger, strength, xPos=0, yPos=0):
 		self.game = game
@@ -11,6 +16,8 @@ class Character(entities.Entity):
 		self.xPos = xPos
 		self.yPos = yPos
 		self.level = 0
+
+		
 
 
 
