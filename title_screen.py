@@ -3,6 +3,7 @@ import os
 import characters
 from colors import *
 import sys
+import main
 
 getch = key_input._GetchUnix()
 
@@ -12,7 +13,7 @@ class Title(object):
 
 	def render(self):
 		os.system("clear")
-		print(color.RED +"_ _ _ ____ _    ____ ____ _  _ ____    ___ ____    _  _ _  _ _    _       ___  ____ ____ ____ ____ _  _")
+		print(color.RED + color.BOLD + "_ _ _ ____ _    ____ ____ _  _ ____    ___ ____    _  _ _  _ _    _       ___  ____ ____ ____ ____ _  _")
 		print("| | | |___ |    |    |  | |\/| |___     |  |  |    |__| |  | |    |       |__] |__/ |___ |__| |    |__|")
 		print("|_|_| |___ |___ |___ |__| |  | |___     |  |__|    |  | |__| |___ |___    |__] |  \ |___ |  | |___ |  |" + color.END)
 		print()
@@ -66,7 +67,16 @@ class Title(object):
 		
 		print(color.BLUE + "You are a " + characters.charlist[int(inn) - 1] + "! Doot doot" + color.END) 
 
+		a = input()
 
+		if inn == "1":
+			main.run(characters.Knight(None, 1, 1))
+		elif inn == "2":
+			main.run(characters.Wizard(None, 1, 1))
+		elif inn == "3":
+			main.run(characters.Gunner(None, 1, 1))
+		elif inn == "4":
+			main.run(characters.Rogue(None, 1, 1))
 
 title = Title()
 title.render()

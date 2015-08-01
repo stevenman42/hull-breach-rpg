@@ -179,11 +179,10 @@ class Game(object):
 
 		self.render()
 
-		if random.randint(1, 100) == 1:
+		if random.randint(1, 1000) == 1:
 			self.hull_breach()
 
-def run():
-	guy = characters.Knight(None, 1, 1)
+def run(guy):
 	game = Game(guy, 70, 20, 5, 5)
 	guy.game = game
 
@@ -262,4 +261,3 @@ def run():
 			pass
 
 
-run()
