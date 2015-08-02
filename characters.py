@@ -7,7 +7,8 @@ import inventory
 charlist = ["Knight", "Wizard", "Gunner", "Rogue"]
 
 class Character(entities.Entity):
-	def __init__(self, game, speed, armor, health, damage, hunger, strength, xPos=0, yPos=0):
+	def __init__(self, name, game, speed, armor, health, damage, hunger, strength, xPos=0, yPos=0):
+		self.name = name
 		self.game = game
 		self.speed = speed
 		self.armor = armor
@@ -16,6 +17,8 @@ class Character(entities.Entity):
 		self.xPos = xPos
 		self.yPos = yPos
 		self.level = 0
+
+		self.type = "Character"
 
 
 		self.icon = "0"
@@ -35,7 +38,7 @@ class Character(entities.Entity):
 
 class Knight(Character):
 	"""docstring for Knight"""
-	def __init__(self, game, xPos, yPos):
+	def __init__(self, name, game, xPos, yPos):
 
 		speed = 3
 		armor = 8
@@ -44,31 +47,31 @@ class Knight(Character):
 		hunger = 10
 		strength = 2
 
-		super(Knight, self).__init__(game, speed, armor, health, damage, hunger, strength, xPos, yPos)
+		super(Knight, self).__init__(name, game, speed, armor, health, damage, hunger, strength, xPos, yPos)
 		self.inventory = inventory.Inventory(entities.Book("Great"))
-		self.name = "Knight"
+		self.title = "Knight"
 
 class Wizard(Character):
 	"""docstring for Wizard"""
-	def __init__(self, game, xPos, yPos):
+	def __init__(self, name, game, xPos, yPos):
 
-		super(Wizard, self).__init__(game, 5, 3, 8, 7, 1, 10)
+		super(Wizard, self).__init__(name, game, 5, 3, 8, 7, 1, 10)
 		self.inventory = inventory.Inventory("Wand")
-		self.name = "Wizard"
+		self.title = "Wizard"
 
 class Gunner(Character):
 	"""docstring for Gunner"""
-	def __init__(self, game, xPos, yPos):
+	def __init__(self, name, game, xPos, yPos):
 
-		super(Gunner, self).__init__(game, 6, 5, 5, 8, 1, 10)
+		super(Gunner, self).__init__(name, game, 6, 5, 5, 8, 1, 10)
 		self.inventory = inventory.Inventory("Gun")
-		self.name = "Gunner"
+		self.title = "Gunner"
 
 class Rogue(Character):
 	"""docstring for Wizard"""
-	def __init__(self, game, xPos, yPos):
+	def __init__(self, name, game, xPos, yPos):
 
-		super(Rogue, self).__init__(game, 10, 5, 8, 2, 0, 10)
+		super(Rogue, self).__init__(name, game, 10, 5, 8, 2, 0, 10)
 		self.inventory = inventory.Inventory("Knife")
-		self.name = "Rogue"
+		self.title = "Rogue"
 

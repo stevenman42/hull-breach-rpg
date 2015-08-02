@@ -38,7 +38,7 @@ class Monster(entities.Entity):
 			game.add_entity(self.xPos, self.yPos, self)
 			#game.entity_icons[self.yPos][self.xPos].append(self.icon)
 
-		if can_whack:
+		if can_whack and not(self.type == "Monster" and game.entities[self.yPos + deltaY][self.xPos + deltaX][-1].type == "Monster"):
 			self.attack(game.entities[self.yPos + deltaY][self.xPos + deltaX][-1], 5)
 
 	def tick(self, game):

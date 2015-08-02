@@ -4,6 +4,7 @@ import characters
 import info
 import entities
 import monsters
+import console
 
 
 
@@ -65,7 +66,7 @@ class Game(object):
 
 
 		self.say("Welcome to hull breach!  Watch out for hull breaches!")
-		self.say("""3 years ago, you retired from your job as a """ + self.player.name.lower() + """.  After a period of homelessness, you find yourself working on a submarine off the coast of Siberia as a result of a brush with the Russian mafia.  The submarine you work on contains experiments involving the genetic mutation of animals.  Everything was going swell, until one day, after a lazy technician forgot to make his inspection of the hull, there was a breach, and now the cold Siberian sea is leaking into the submarine.  Nearly everyone on the sub is dead, so it is up to you to navigate through the rooms of the submarine and find the hull breach and patch it before it's too late.""")
+		self.say("""3 years ago, you retired from your job as a """ + self.player.title.lower() + """.  After a period of homelessness, you find yourself working on a submarine off the coast of Siberia as a result of a brush with the Russian mafia.  The submarine you work on contains experiments involving the genetic mutation of animals.  Everything was going swell, until one day, after a lazy technician forgot to make his inspection of the hull, there was a breach, and now the cold Siberian sea is leaking into the submarine.  Nearly everyone on the sub is dead, so it is up to you to navigate through the rooms of the submarine and find the hull breach and patch it before it's too late.""")
 		self.render()
 		
 
@@ -83,7 +84,7 @@ class Game(object):
 		try:
 			return self.entities[yPos][xPos][zPos]
 		except IndexError:
-			return entities.NullEntity()
+			return entities.NullEntity(xPos, yPos)
 
 	def get_entity_icon(self, xPos, yPos, zPos):
 		try:
@@ -93,11 +94,16 @@ class Game(object):
 		
 	def render(self):
 		os.system("clear")
+		(width, height) = console.getTerminalSize()
 
 		self.info.render()
 		self.info.render_dialogue()
 
+		horiz_buffer = " " * int((width - self.width) / 2)
+
+
 		for i in range(self.height):
+			sys.stdout.write(horiz_buffer)
 			for j in range(self.width):
 				try:
 					if self.entity_icons[i][j][-1] == " ":
@@ -120,7 +126,7 @@ class Game(object):
 
 	def render_inventory(self, msg=""):
 		os.system("clear")
-		print()
+		print("")
 		if msg != "":
 			print(msg)
 		print("          Inventory")
@@ -242,17 +248,17 @@ def run(guy):
 				game.render_inventory("What do you want to throw?")
 			if inn == "1":
 				game.render()
-				dum = False
-				while dum == False:
-					dum = getch.__call__()
+				dum = None
+				while dum == None:
 					game.say("What direction do you want to throw the " + game.player.inventory.items[0].description + " " + game.player.inventory.items[0].name + "?")
 					game.render()
-				print(dum + "Aoeu")
-				if dum == "down":
-					print("HUEHUEHUEHUEH")
-					game.set_entity(game.player.xPos, game.player.yPos + game.player.strength * 3 + random.randint(-1, 2), game.player.inventory.items[0])
-					game.player.inventory.remove_item(game.player.inventory.items[0])
-					game.render()
+					dum = getch.__call__()
+					print(dum + "Aoeu")
+					if dum == "down":
+						print("HUEHUEHUEHUEH")
+						game.set_entity(game.player.xPos, game.player.yPos + game.player.strength * 3 + random.randint(-1, 2), game.player.inventory.items[0])
+						game.player.inventory.remove_item(game.player.inventory.items[0])
+						game.render()
 
 
 

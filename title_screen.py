@@ -88,6 +88,11 @@ class Title(object):
 	def new_game(self):
 		os.system("clear")
 		name = raw_input(color.DARKCYAN + "What is your name? " + color.END)
+
+		# THIS SHOULD BE REMOVED BEFORE THE GAME IS PUBLISHED
+		if name == "":
+			main.run(characters.Knight("Developer", None, 1, 1))
+
 		print(color.DARKCYAN + "Hi " + color.END + name + color.DARKCYAN + "!\n" + color.END)
 
 		print(color.BLUE + "What class are you? " + color.END)
@@ -107,13 +112,11 @@ class Title(object):
 		a = raw_input()
 
 		if inn == "1":
-			main.run(characters.Knight(None, 1, 1))
+			main.run(characters.Knight(name, None, 1, 1))
 		elif inn == "2":
-			main.run(characters.Wizard(None, 1, 1))
+			main.run(characters.Wizard(name, None, 1, 1))
 		elif inn == "3":
-			main.run(characters.Gunner(None, 1, 1))
+			main.run(characters.Gunner(name, None, 1, 1))
 		elif inn == "4":
-			main.run(characters.Rogue(None, 1, 1))
+			main.run(characters.Rogue(name, None, 1, 1))
 
-title = Title()
-title.render()
