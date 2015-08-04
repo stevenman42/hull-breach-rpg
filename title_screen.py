@@ -90,6 +90,7 @@ class Title(object):
 		name = raw_input(color.DARKCYAN + "What is your name? " + color.END)
 
 		# THIS SHOULD BE REMOVED BEFORE THE GAME IS PUBLISHED
+		# you can skip the choosing character stuff if you just press enter when it asks for a name, and it'll automatically make you a knight
 		if name == "":
 			main.run(characters.Knight("Developer", None, 1, 1))
 

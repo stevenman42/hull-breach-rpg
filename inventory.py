@@ -1,7 +1,7 @@
 class Inventory(object):
 	def __init__(self, stuff=[]):
 		self.items = []
-		for i in self.items:
+		for i in stuff:
 			self.items.append(i)
 			
 	def add_item(self, item):

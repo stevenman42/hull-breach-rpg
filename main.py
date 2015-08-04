@@ -1,4 +1,4 @@
-import os, sys, random
+import os, sys, random, time
 import input as key_input
 import characters
 import info
@@ -66,7 +66,7 @@ class Game(object):
 
 
 		self.say("Welcome to hull breach!  Watch out for hull breaches!")
-		self.say("""3 years ago, you retired from your job as a """ + self.player.title.lower() + """.  After a period of homelessness, you find yourself working on a submarine off the coast of Siberia as a result of a brush with the Russian mafia.  The submarine you work on contains experiments involving the genetic mutation of animals.  Everything was going swell, until one day, after a lazy technician forgot to make his inspection of the hull, there was a breach, and now the cold Siberian sea is leaking into the submarine.  Nearly everyone on the sub is dead, so it is up to you to navigate through the rooms of the submarine and find the hull breach and patch it before it's too late.""")
+		self.say("""3 years ago, you retired from your job as a """ + self.player.title.lower() + """.  After a period of homelessness, you find yourself working on a submarine off the coast of Siberia as a result of a brush with the Russian mafia.  The submarine you work on contains experiments involving the genetic mutation of animals.  Everything was going swell, until one day, after a lazy technician forgot to make his inspection of the hull, there was a breach, and now the cold Siberian sea is leaking into the submarine.  Now the sub is engulfed in chaos, so it is up to you to navigate through the rooms of the submarine and find the hull breach and patch it before it's too late.""")
 		self.render()
 		
 
@@ -102,6 +102,7 @@ class Game(object):
 		horiz_buffer = " " * int((width - self.width) / 2)
 
 
+		# draws everything in the map array, and everything in the entity_icons array
 		for i in range(self.height):
 			sys.stdout.write(horiz_buffer)
 			for j in range(self.width):
@@ -144,28 +145,39 @@ class Game(object):
 	def hull_breach(self):
 		os.system("clear")
 		print("OH NO")
-		a = input("")
+		time.sleep(1)
 		print("IT'S A...")
-		a = input("")
+		time.sleep(2)
 		print(" _   _ _   _ _     _       ____  ____  _____    _    ____ _   _ ")
 		print("| | | | | | | |   | |     | __ )|  _ \| ____|  / \  / ___| | | |")
 		print("| |_| | | | | |   | |     |  _ \| |_) |  _|   / _ \| |   | |_| |")
 		print("|  _  | |_| | |___| |___  | |_) |  _ <| |___ / ___ \ |___|  _  |")
 		print("|_| |_|\___/|_____|_____| |____/|_| \_\_____/_/   \_\____|_| |_|")
+		for i in range(5):
+			time.sleep(.5)
+			os.system("clear")
+			print("OH NO")
+			print("IT'S A...")
+			time.sleep(.5)
+			print(" _   _ _   _ _     _       ____  ____  _____    _    ____ _   _ ")
+			print("| | | | | | | |   | |     | __ )|  _ \| ____|  / \  / ___| | | |")
+			print("| |_| | | | | |   | |     |  _ \| |_) |  _|   / _ \| |   | |_| |")
+			print("|  _  | |_| | |___| |___  | |_) |  _ <| |___ / ___ \ |___|  _  |")
+			print("|_| |_|\___/|_____|_____| |____/|_| \_\_____/_/   \_\____|_| |_|")
 
-
-		a = input()
+		a = input("")
 		self.tick()
 
 	def tick(self):
 
-
+		# checks to make sure nothing is still sticking around after is has 0 or less health
 		for row in self.entities:
 			for col in row:
 				for thingy in col:
 					try:
 						if thingy.health < 0:
-							self.remove_entity(thingy.xPos, thingy.yPos, thingy)
+							#self.remove_entity(thingy.xPos, thingy.yPos, thingy)
+							thingy.die(self)
 							kill_adj = ["brutally", "efficiently", "swiftly", "messily", "violently", "cheerfully"][random.randint(0,5)]
 							kill_msg = ["murder", "slaughter", "destroy", "annihilate", "obliterate", "kill", "massacre"][random.randint(0,6)]
 							self.say("You " + kill_adj + " " + kill_msg + " the " + thingy.name)
@@ -241,6 +253,10 @@ def run(guy):
 				game.render()
 
 		elif inn == "t":
+
+			# this bit should probably be written into its own method
+			# note: the drop method could be used, because you can set the xPos and yPos of where the item is dropped
+
 			game.render_inventory("What do you want to throw?")
 			inn = False
 			while inn == False:
@@ -253,12 +269,42 @@ def run(guy):
 					game.say("What direction do you want to throw the " + game.player.inventory.items[0].description + " " + game.player.inventory.items[0].name + "?")
 					game.render()
 					dum = getch.__call__()
-					print(dum + "Aoeu")
-					if dum == "down":
-						print("HUEHUEHUEHUEH")
-						game.set_entity(game.player.xPos, game.player.yPos + game.player.strength * 3 + random.randint(-1, 2), game.player.inventory.items[0])
-						game.player.inventory.remove_item(game.player.inventory.items[0])
-						game.render()
+					print(dum + " Aoeu")
+					if dum == "[":
+						try:
+							variance = random.randint(-1, 2)
+							game.add_entity(game.player.xPos, game.player.yPos + game.player.strength * 3 + variance, game.player.inventory.items[0])
+							game.player.inventory.remove_item(game.player.inventory.items[0])
+							game.render()
+						except IndexError:
+
+							for i in range(game.player.yPos + game.player.strength * 3 + variance):
+								try:
+									game.add_entity(game.player.xPos, game.player.yPos + game.player.strength * 3 + variance - i, game.player.inventory.items[0])
+									game.player.inventory.remove_item(game.player.inventory.items[0])
+									game.render()
+								except IndexError:
+									pass
+			else:
+				game.say("You don't have that item")
+				game.render()
+
+		elif inn == "d":
+
+			game.render_inventory("What do you want to drop?")
+			inn = False
+			while inn == False:
+				inn = getch.__call__()
+				#game.render_inventory("What do you want to drop?")
+
+			try:
+				game.say("You drop a " + game.player.inventory.items[int(inn)].description + " " + game.player.inventory.items[int(inn)].name)
+				game.render()
+				game.player.drop(game, game.player.inventory.items[int(inn)])
+			except IndexError:
+				game.say("You don't have that item, silly!")
+				game.render()
+
 
 
 

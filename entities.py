@@ -8,6 +8,11 @@ class Entity(object):
 		self.xPos = xPos
 		self.yPos = yPos
 
+	def drop(self, holder, game, item):
+		holder.inventory.remove_item(item)
+		game.add_entity(holder.xPos, holder.yPos, item)
+		game.say("The " + str(self) + " is dropped")
+
 
 	def move(self, game, deltaX, deltaY):
 
@@ -55,7 +60,11 @@ class Entity(object):
 	def tick(self, game):
 		pass
 
-
+class Chest(Entity):
+	"""This isn't being implemented atm, but it's an example of why an entity that's not a player or a monster would need an inventory"""
+	def __init__(self, items):
+		for item in items:
+			self.inventory.add_item(item)
 
 class Book(Entity):
 

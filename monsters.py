@@ -1,5 +1,6 @@
 import entities
 import random
+import inventory
 
 class Monster(entities.Entity):
 	def __init__(self, speed, armor, health, damage, icon, xPos, yPos):
@@ -11,6 +12,11 @@ class Monster(entities.Entity):
 		self.icon = icon
 		self.whackable = True
 		self.type = "Monster"
+
+	def die(self, game):
+		game.remove_entity(self.xPos, self.yPos, self)
+		for item in self.inventory.items:
+			item.drop(self, game, item)
 		
 
 	def attack(self,target,damage):
@@ -35,6 +41,7 @@ class Monster(entities.Entity):
 			game.remove_entity(self.xPos, self.yPos, self)
 			self.xPos += deltaX
 			self.yPos += deltaY
+			print(str(self.xPos) + " " + str(self.yPos))
 			game.add_entity(self.xPos, self.yPos, self)
 			#game.entity_icons[self.yPos][self.xPos].append(self.icon)
 
@@ -45,6 +52,8 @@ class Monster(entities.Entity):
 		rand = random.randint(0, 1)
 		self.game = game
 
+
+		# the random numbers are so that their movement isn't just straight up and straight over
 		if rand == 1:
 			if game.player.xPos > self.xPos:
 				self.move(game, 1, 0)
@@ -89,6 +98,7 @@ class Orc(Monster):
 		super(Orc, self).__init__(speed, armor, health, damage, icon, xPos, yPos)
 		self.walkable = False
 		self.name = "Orc"
+		self.inventory = inventory.Inventory([entities.Book("Kinda okay")])
 
 class Monkey(Monster):
 	"""docstring for Monkey"""

@@ -14,6 +14,8 @@ class Character(entities.Entity):
 		self.armor = armor
 		self.health = health
 		self.damage = damage
+		self.hunger = hunger
+		self.strength = strength
 		self.xPos = xPos
 		self.yPos = yPos
 		self.level = 0
@@ -48,12 +50,20 @@ class Knight(Character):
 		strength = 2
 
 		super(Knight, self).__init__(name, game, speed, armor, health, damage, hunger, strength, xPos, yPos)
-		self.inventory = inventory.Inventory(entities.Book("Great"))
+		self.inventory = inventory.Inventory([entities.Book("Great")])
 		self.title = "Knight"
 
 class Wizard(Character):
 	"""docstring for Wizard"""
 	def __init__(self, name, game, xPos, yPos):
+
+		speed = 3
+		armor = 8
+		health = 60
+		damage = 15
+		hunger = 10
+		strength = 2
+
 
 		super(Wizard, self).__init__(name, game, 5, 3, 8, 7, 1, 10)
 		self.inventory = inventory.Inventory("Wand")
@@ -63,6 +73,14 @@ class Gunner(Character):
 	"""docstring for Gunner"""
 	def __init__(self, name, game, xPos, yPos):
 
+		speed = 3
+		armor = 8
+		health = 60
+		damage = 15
+		hunger = 10
+		strength = 2
+
+
 		super(Gunner, self).__init__(name, game, 6, 5, 5, 8, 1, 10)
 		self.inventory = inventory.Inventory("Gun")
 		self.title = "Gunner"
@@ -70,6 +88,14 @@ class Gunner(Character):
 class Rogue(Character):
 	"""docstring for Wizard"""
 	def __init__(self, name, game, xPos, yPos):
+
+		speed = 3
+		armor = 8
+		health = 60
+		damage = 15
+		hunger = 10
+		strength = 2
+
 
 		super(Rogue, self).__init__(name, game, 10, 5, 8, 2, 0, 10)
 		self.inventory = inventory.Inventory("Knife")
