@@ -1,4 +1,4 @@
-import os, sys, random, time
+import os, sys, random, time, string
 import input as key_input
 import characters
 import info
@@ -165,7 +165,6 @@ class Game(object):
 			print("|  _  | |_| | |___| |___  | |_) |  _ <| |___ / ___ \ |___|  _  |")
 			print("|_| |_|\___/|_____|_____| |____/|_| \_\_____/_/   \_\____|_| |_|")
 
-		a = input("")
 		self.tick()
 
 	def tick(self):
@@ -237,57 +236,160 @@ def run(guy):
 				game.say("you picked up the " + game.get_entity(game.player.xPos, game.player.yPos, -2).description + " " + game.get_entity(game.player.xPos, game.player.yPos, -2).name)
 				game.player.pick_up(game.get_entity(game.player.xPos, game.player.yPos, -2))
 			game.tick()
+
+		# using/applying items
 		elif inn == "a":
 
-			#inn = getch.__call__()
-			game.render_inventory("What do you want to use or apply?")
-			inn = False
-			while inn == False:
-				inn = getch.__call__()
-				game.render_inventory("What do you want to use or apply?")
-			if inn == "1":
-				game.say("You use 1")
-				game.render()
-			else:
-				game.say("you don't have that, silly")
+			if len(game.player.inventory.items) <= 0:
+				game.say("You ain't got nothin' to use or apply!")
 				game.render()
 
+			else:
+				#inn = getch.__call__()
+				game.render_inventory("What do you want to use or apply?")
+				inn = False
+				while inn == False:
+					inn = getch.__call__()
+					game.render_inventory("What do you want to use or apply?")
+				if inn == "1":
+					game.say("You use 1")
+					game.render()
+				else:
+					game.say("you don't have that, silly")
+					game.render()
+
+		# throwing items
 		elif inn == "t":
 
-			# this bit should probably be written into its own method
-			# note: the drop method could be used, because you can set the xPos and yPos of where the item is dropped
-
-			game.render_inventory("What do you want to throw?")
-			inn = False
-			while inn == False:
-				inn = getch.__call__()
-				game.render_inventory("What do you want to throw?")
-			if inn == "1":
+			if len(game.player.inventory.items) <= 0:
+				game.say("You ain't got nothin' to throw!")
 				game.render()
-				dum = None
-				while dum == None:
-					game.say("What direction do you want to throw the " + game.player.inventory.items[0].description + " " + game.player.inventory.items[0].name + "?")
+
+			else:
+				# this bit should probably be written into its own method
+				# note: the drop method could be used, because you can set the xPos and yPos of where the item is dropped
+
+				game.render_inventory("What do you want to throw?")
+				inn = False
+				while inn == False:
+					inn = getch.__call__()
+					game.render_inventory("What do you want to throw?")
+				if inn == "1":
 					game.render()
-					dum = getch.__call__()
-					print(dum + " Aoeu")
-					if dum == "[":
-						try:
-							variance = random.randint(-1, 2)
-							game.add_entity(game.player.xPos, game.player.yPos + game.player.strength * 3 + variance, game.player.inventory.items[0])
+					dum = None
+					while dum == None:
+						game.say("What direction do you want to throw the " + game.player.inventory.items[0].description + " " + game.player.inventory.items[0].name + "?")
+						game.render()
+						dum = getch.__call__()
+
+						if dum == "up":
+
+							try:
+								variance = random.randint(-1, 2)
+								if not (game.player.yPos - game.player.strength * 3 - variance) < 1:
+									game.add_entity(game.player.xPos, game.player.yPos - game.player.strength * 3 - variance, game.player.inventory.items[0])
+								else:
+									# this bit is literally just put in to throw an error
+									stupid = []
+									print(stupid[1])
+							except IndexError:
+
+								temp_list = range(game.player.yPos + game.player.strength * 3 + variance)
+								temp_list.reverse()
+								for i in temp_list:
+									#game.say("HERE'S THE NUMBER " + str(game.player.yPos - game.player.strength * 3 - variance + i))
+									game.render()
+									if not (game.player.yPos - i) < 1:
+										try:
+											game.add_entity(game.player.xPos, game.player.yPos - i, game.player.inventory.items[0])
+											break
+										except IndexError:
+											pass
+									else:
+										pass
+										#game.add_entity(game.player.xPos, 1)
 							game.player.inventory.remove_item(game.player.inventory.items[0])
 							game.render()
-						except IndexError:
 
-							for i in range(game.player.yPos + game.player.strength * 3 + variance):
-								try:
-									game.add_entity(game.player.xPos, game.player.yPos + game.player.strength * 3 + variance - i, game.player.inventory.items[0])
-									game.player.inventory.remove_item(game.player.inventory.items[0])
-									game.render()
-								except IndexError:
-									pass
-			else:
-				game.say("You don't have that item")
-				game.render()
+
+						if dum == "down":
+							try:
+								variance = random.randint(-1, 2)
+								if not (game.player.yPos + game.player.strength * 3 + variance) >= game.height - 1:
+									game.add_entity(game.player.xPos, game.player.yPos + game.player.strength * 3 + variance, game.player.inventory.items[0])
+								else:
+									# see above if this confuses you
+									stupid = []
+									print(stupid[1])
+							except IndexError:
+
+								temp_list = range(game.player.yPos + game.player.strength * 3 + variance)
+								temp_list.reverse()
+								for i in temp_list:
+									if not (game.player.yPos + i) >= game.height - 1:
+										try:
+											game.add_entity(game.player.xPos, game.player.yPos + i, game.player.inventory.items[0])
+											break
+										except IndexError:
+											pass
+									else:
+										pass
+							game.player.inventory.remove_item(game.player.inventory.items[0])
+							game.render()
+
+
+						if dum == "left":
+							try:
+								variance = random.randint(-1, 2)
+								if not (game.player.xPos - game.player.strength * 3 - variance) < 1:
+									game.add_entity(game.player.xPos - game.player.strength * 3 - variance, game.player.yPos, game.player.inventory.items[0])
+								else:
+									stupid = []
+									print(stupid[1])
+							except IndexError:
+
+								temp_list = range(game.player.yPos + game.player.strength * 3 + variance)
+								temp_list.reverse()
+								for i in temp_list:
+									if not (game.player.xPos - i) < 1:
+										try:
+											game.add_entity(game.player.xPos - i, game.player.yPos, game.player.inventory.items[0])
+											break
+										except IndexError:
+											pass
+									else:
+										pass
+							game.player.inventory.remove_item(game.player.inventory.items[0])
+							game.render()
+
+
+						if dum == "right":
+							try:
+								variance = random.randint(-1, 2)
+								if not (game.player.xPos + game.player.strength * 3 - variance) < 1:
+									game.add_entity(game.player.xPos + game.player.strength * 3 + variance, game.player.yPos, game.player.inventory.items[0])
+								else:
+									stupid = []
+									print(stupid[1])
+							except IndexError:
+
+								temp_list = range(game.player.xPos + game.player.strength * 3 + variance)
+								temp_list.reverse()
+								for i in temp_list:
+									if not (game.player.xPos + i) >= game.width - 1:
+										try:
+											game.add_entity(game.player.xPos + i, game.player.yPos, game.player.inventory.items[0])
+											break
+										except IndexError:
+											pass
+									else:
+										pass
+							game.player.inventory.remove_item(game.player.inventory.items[0])
+							game.render()
+
+				else:
+					game.say("You don't have that item")
+					game.render()
 
 		elif inn == "d":
 
@@ -295,13 +397,18 @@ def run(guy):
 			inn = False
 			while inn == False:
 				inn = getch.__call__()
-				#game.render_inventory("What do you want to drop?")
 
-			try:
-				game.say("You drop a " + game.player.inventory.items[int(inn)].description + " " + game.player.inventory.items[int(inn)].name)
-				game.render()
-				game.player.drop(game, game.player.inventory.items[int(inn)])
-			except IndexError:
+
+
+			if inn in string.lowercase + "1234567890":
+				try:
+					game.say("You drop a " + game.player.inventory.items[int(inn)].description + " " + game.player.inventory.items[int(inn)].name)
+					game.render()
+					game.player.drop(game, game.player.inventory.items[int(inn)])
+				except IndexError:
+					game.say("You don't have that item, silly!")
+					game.render()
+			else:
 				game.say("You don't have that item, silly!")
 				game.render()
 

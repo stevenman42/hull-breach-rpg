@@ -11,7 +11,6 @@ class Entity(object):
 	def drop(self, holder, game, item):
 		holder.inventory.remove_item(item)
 		game.add_entity(holder.xPos, holder.yPos, item)
-		game.say("The " + str(self) + " is dropped")
 
 
 	def move(self, game, deltaX, deltaY):
@@ -26,6 +25,8 @@ class Entity(object):
 			if i.whackable == True:
 				can_move = False
 				can_whack = True
+			elif i.whackable == False:
+				can_whack = False
 
 		if can_move:
 			game.render()
@@ -53,7 +54,7 @@ class Entity(object):
 		if can_whack:
 			print(game.player)
 			print(game)
-			thing = game.entities[self.yPos + deltaY][self.xPos + deltaX][0]
+			thing = game.entities[self.yPos + deltaY][self.xPos + deltaX][-1]
 			print(thing)
 			game.player.attack(thing, game.player.damage + random.randint(-2,2))
 

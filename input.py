@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import string
+
 class _Getch:
     """Gets a single character from standard input.  Does not echo to the
 screen."""
@@ -23,20 +25,27 @@ class _GetchUnix:
         try:
             tty.setraw(sys.stdin.fileno())
             ch = sys.stdin.read(1)
-            if (ch == "["):
-                dis = self.__call__()
-                if(dis == "A"):
+
+            if ch not in string.lowercase + "1234567890,._=[] ":
+                dis = sys.stdin.read(2)
+                if(dis == "[A"):
                     #print("up")
                     ch = "up"
-                elif (dis == "B"):
+                    return ch
+                elif (dis == "[B"):
                     #print("down")
                     ch = "down"
-                elif (dis == "C"):
+                    return ch
+                elif (dis == "[C"):
                     #print("right")
                     ch = "right"
-                elif (dis == "D"):
+                    return ch
+                elif (dis == "[D"):
                     #print("left")
                     ch = "left"
+                    return ch
+            else:
+                return ch
         finally:
             termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
         return ch
@@ -51,3 +60,6 @@ class _GetchWindows:
         return msvcrt.getch()
 
 
+# getch = _GetchUnix()
+# for i in range(10):
+#     print(getch.__call__())
