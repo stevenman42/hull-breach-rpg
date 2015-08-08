@@ -274,11 +274,13 @@ def run(guy):
 				while inn == False:
 					inn = getch.__call__()
 					game.render_inventory("What do you want to throw?")
-				if inn == "1":
-					game.render()
+				if not inn in "1234567890":
+					game.say("You don't have that item, silly goose!")
+				else:
+					num = int(inn) - 1
 					dum = None
 					while dum == None:
-						game.say("What direction do you want to throw the " + game.player.inventory.items[0].description + " " + game.player.inventory.items[0].name + "?")
+						game.say("What direction do you want to throw the " + game.player.inventory.items[num].description + " " + game.player.inventory.items[num].name + "?")
 						game.render()
 						dum = getch.__call__()
 
@@ -287,7 +289,7 @@ def run(guy):
 							try:
 								variance = random.randint(-1, 2)
 								if not (game.player.yPos - game.player.strength * 3 - variance) < 1:
-									game.add_entity(game.player.xPos, game.player.yPos - game.player.strength * 3 - variance, game.player.inventory.items[0])
+									game.add_entity(game.player.xPos, game.player.yPos - game.player.strength * 3 - variance, game.player.inventory.items[num])
 								else:
 									# this bit is literally just put in to throw an error
 									stupid = []
@@ -301,14 +303,14 @@ def run(guy):
 									game.render()
 									if not (game.player.yPos - i) < 1:
 										try:
-											game.add_entity(game.player.xPos, game.player.yPos - i, game.player.inventory.items[0])
+											game.add_entity(game.player.xPos, game.player.yPos - i, game.player.inventory.items[num])
 											break
 										except IndexError:
 											pass
 									else:
 										pass
 										#game.add_entity(game.player.xPos, 1)
-							game.player.inventory.remove_item(game.player.inventory.items[0])
+							game.player.inventory.remove_item(game.player.inventory.items[num])
 							game.render()
 
 
@@ -316,7 +318,7 @@ def run(guy):
 							try:
 								variance = random.randint(-1, 2)
 								if not (game.player.yPos + game.player.strength * 3 + variance) >= game.height - 1:
-									game.add_entity(game.player.xPos, game.player.yPos + game.player.strength * 3 + variance, game.player.inventory.items[0])
+									game.add_entity(game.player.xPos, game.player.yPos + game.player.strength * 3 + variance, game.player.inventory.items[num])
 								else:
 									# see above if this confuses you
 									stupid = []
@@ -328,13 +330,13 @@ def run(guy):
 								for i in temp_list:
 									if not (game.player.yPos + i) >= game.height - 1:
 										try:
-											game.add_entity(game.player.xPos, game.player.yPos + i, game.player.inventory.items[0])
+											game.add_entity(game.player.xPos, game.player.yPos + i, game.player.inventory.items[num])
 											break
 										except IndexError:
 											pass
 									else:
 										pass
-							game.player.inventory.remove_item(game.player.inventory.items[0])
+							game.player.inventory.remove_item(game.player.inventory.items[num])
 							game.render()
 
 
@@ -342,7 +344,7 @@ def run(guy):
 							try:
 								variance = random.randint(-1, 2)
 								if not (game.player.xPos - game.player.strength * 3 - variance) < 1:
-									game.add_entity(game.player.xPos - game.player.strength * 3 - variance, game.player.yPos, game.player.inventory.items[0])
+									game.add_entity(game.player.xPos - game.player.strength * 3 - variance, game.player.yPos, game.player.inventory.items[num])
 								else:
 									stupid = []
 									print(stupid[1])
@@ -353,13 +355,13 @@ def run(guy):
 								for i in temp_list:
 									if not (game.player.xPos - i) < 1:
 										try:
-											game.add_entity(game.player.xPos - i, game.player.yPos, game.player.inventory.items[0])
+											game.add_entity(game.player.xPos - i, game.player.yPos, game.player.inventory.items[num])
 											break
 										except IndexError:
 											pass
 									else:
 										pass
-							game.player.inventory.remove_item(game.player.inventory.items[0])
+							game.player.inventory.remove_item(game.player.inventory.items[num])
 							game.render()
 
 
@@ -367,7 +369,7 @@ def run(guy):
 							try:
 								variance = random.randint(-1, 2)
 								if not (game.player.xPos + game.player.strength * 3 - variance) < 1:
-									game.add_entity(game.player.xPos + game.player.strength * 3 + variance, game.player.yPos, game.player.inventory.items[0])
+									game.add_entity(game.player.xPos + game.player.strength * 3 + variance, game.player.yPos, game.player.inventory.items[num])
 								else:
 									stupid = []
 									print(stupid[1])
@@ -378,18 +380,14 @@ def run(guy):
 								for i in temp_list:
 									if not (game.player.xPos + i) >= game.width - 1:
 										try:
-											game.add_entity(game.player.xPos + i, game.player.yPos, game.player.inventory.items[0])
+											game.add_entity(game.player.xPos + i, game.player.yPos, game.player.inventory.items[num])
 											break
 										except IndexError:
 											pass
 									else:
 										pass
-							game.player.inventory.remove_item(game.player.inventory.items[0])
+							game.player.inventory.remove_item(game.player.inventory.items[num])
 							game.render()
-
-				else:
-					game.say("You don't have that item")
-					game.render()
 
 		elif inn == "d":
 
