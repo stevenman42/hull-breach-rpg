@@ -63,6 +63,7 @@ class Game(object):
 		self.add_entity(4, 9, entities.Book("Plaid", 4, 9))
 		self.add_entity(20, 4, monsters.Orc(20, 4))
 		self.add_entity(20, 5, monsters.Monkey(20, 5))
+		self.add_entity(1, 5, entities.Chest([entities.Book("The")], "Regular"))
 
 
 		self.say("Welcome to hull breach!  Watch out for hull breaches!")
@@ -190,8 +191,10 @@ class Game(object):
 			entity.tick(self)
 
 		if self.player.health <= 0:
-			self.say("ur ded rip in peace")
+			self.say("ur ded rip in piece")
 			self.remove_entity(self.player.xPos, self.player.yPos, self.player)
+			self.render()
+			sys.exit()
 
 		self.time += 1
 
@@ -251,9 +254,13 @@ def run(guy):
 				while inn == False:
 					inn = getch.__call__()
 					game.render_inventory("What do you want to use or apply?")
-				if inn == "1":
-					game.say("You use 1")
-					game.render()
+				if inn in "1234567890":
+					try:
+						game.player.inventory.items[int(inn) - 1].apply(game)
+						game.render()
+					except AttributeError:
+						game.say("You can't use that, silly rabbit!")
+						game.render()
 				else:
 					game.say("you don't have that, silly")
 					game.render()
@@ -400,9 +407,9 @@ def run(guy):
 
 			if inn in string.lowercase + "1234567890":
 				try:
-					game.say("You drop a " + game.player.inventory.items[int(inn)].description + " " + game.player.inventory.items[int(inn)].name)
+					game.say("You drop a " + game.player.inventory.items[int(inn) - 1].description + " " + game.player.inventory.items[int(inn) - 1].name)
 					game.render()
-					game.player.drop(game, game.player.inventory.items[int(inn)])
+					game.player.drop(game.player, game, game.player.inventory.items[int(inn) - 1])
 				except IndexError:
 					game.say("You don't have that item, silly!")
 					game.render()

@@ -1,4 +1,8 @@
-import random
+import random, os
+import inventory
+import input as key_input
+
+getch = key_input._GetchUnix()
 
 class Entity(object):
 	"""This is the thing that everything is pretty much except for the stuff that isn't this"""
@@ -37,7 +41,7 @@ class Entity(object):
 				game.add_entity(self.xPos, self.yPos, self)
 				for i in game.entities[self.yPos][self.xPos]:
 					if i != game.player:
-						print(game.entities[self.yPos][self.xPos])
+						# len(game.entities[self.yPos][self.xPos]) is the number of entities that are on the tile that "self" is standing on
 						if len(game.entities[self.yPos][self.xPos]) == 2:
 							game.say("You see here a " + game.entities[self.yPos][self.xPos][0].description + " " + game.entities[self.yPos][self.xPos][0].name)
 						if len(game.entities[self.yPos][self.xPos]) == 3:
@@ -58,14 +62,45 @@ class Entity(object):
 			print(thing)
 			game.player.attack(thing, game.player.damage + random.randint(-2,2))
 
+
 	def tick(self, game):
 		pass
 
 class Chest(Entity):
-	"""This isn't being implemented atm, but it's an example of why an entity that's not a player or a monster would need an inventory"""
-	def __init__(self, items):
+	"""This is an example of why an entity that's not a player or a monster would need an inventory"""
+	def __init__(self, items, description):
+		self.inventory = inventory.Inventory([])
+		self.description = description
+		self.icon = "C"
+		self.walkable = True
+		self.whackable = False
+		self.name = "chest"
 		for item in items:
 			self.inventory.add_item(item)
+
+	def apply(self, game):
+		if len(self.inventory.items) < 1:
+			game.say("There's nothing in this chest")
+			game.render()
+		else:
+			os.system("clear")
+			print("")
+			print("         What do you want to take from the " + self.description + " Chest")
+			print("_" * 30)
+			print("|" + " " * 28 + "|")
+			for i in range(len(self.inventory.items)):
+				item_len = len("| " + str(i + 1) + ":  " + self.inventory.items[i].description + " " + self.inventory.items[i].name + "   |")
+				padding = int((32 - item_len) / 2)
+				print("| " + " " * padding + str(i + 1) + ":  " + self.inventory.items[i].description + " " + self.inventory.items[i].name + " " * (padding - 2) + "   |")
+			print("|" + "_" * 28 + "|")
+			inn = None
+			while inn == None:
+				inn = getch.__call__()
+			if inn in "1234567890":
+				game.player.inventory.add_item(self.inventory.items[int(inn) - 1])
+				self.inventory.remove_item(self.inventory.items[int(inn) - 1])
+			else:
+				print(inn)
 
 class Book(Entity):
 
