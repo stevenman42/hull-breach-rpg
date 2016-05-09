@@ -10,7 +10,7 @@ getch = key_input._GetchUnix()
 
 class Title(object):
 	def __init__(self):
-		self.options = ["New game", "Load game", "Settings", "Quit"]
+		self.options = ["New game", "Load game", "Settings", "Help", "Quit"]
 		self.option = 0
 		self.selected_option = self.options[self.option]
 
@@ -45,6 +45,8 @@ class Title(object):
 
 		if self.selected_option == "Settings":
 			print("NO SETTINGS RIGHT NOW")
+		elif self.selected_option == "Help":
+			print("This is hull breach aka a rip off nethack only a lot worse.")
 		elif self.selected_option == "New game":
 			self.new_game()
 		elif self.selected_option == "Load game":

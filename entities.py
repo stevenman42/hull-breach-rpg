@@ -47,6 +47,7 @@ class Entity(object):
 						if len(game.entities[self.yPos][self.xPos]) == 3:
 							game.say("You see here a " + game.entities[self.yPos][self.xPos][0].description + " " + game.entities[self.yPos][self.xPos][0].name)
 							game.say("You also see a " + game.entities[self.yPos][self.xPos][1].description + " " + game.entities[self.yPos][self.xPos][1].name)
+							break
 						elif len(game.entities[self.yPos][self.xPos]) > 3:
 							game.say("You see here several items")
 							break
@@ -110,8 +111,12 @@ class Book(Entity):
 		self.name = "book"
 		self.icon = "B"
 
+	def apply(self, game):
+		game.say('You read the ' + self.description + ' book')
+
 
 class NullEntity(Entity):
+	# what the heck is a null entity
 
 	def __init__(self, xPos, yPos):
 		super(NullEntity, self).__init__(xPos, yPos)
