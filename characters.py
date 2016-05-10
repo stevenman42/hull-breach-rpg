@@ -52,7 +52,11 @@ class Character(entities.Entity):
 	def attack(self,target,damage):
 		damage -= target.armor
 		target.health -= damage
-		self.game.say("You whack the " + target.name + " for " + str(damage) + " damage")
+		if self.inventory.equips[4] == 0:
+			self.game.say("You punch the " + target.name + " for " + str(damage) + " damage")
+		elif self.inventory.equips[4].name == "Sword":
+			target.health -= 5
+			self.game.say("You slice the " + target.name + " for " + str(damage + 5) + " damage")
 
 	def pick_up(self, item):
 		self.inventory.add_item(item)
@@ -71,12 +75,12 @@ class Character(entities.Entity):
 				inn = getch.__call__()
 				game.render_inventory("What do you want to use or apply?")
 			if inn in "1234567890":
-				try:
-					game.player.inventory.items[int(inn) - 1].apply(game)
-					game.render()
-				except AttributeError:
-					game.say("You can't use that, silly rabbit!")
-					game.render()
+				# try:
+				game.player.inventory.items[int(inn) - 1].apply(game)
+				game.render()
+				# except AttributeError:
+				# 	game.say("You can't use that, silly rabbit!")
+				# 	game.render()
 			else:
 				game.say("you don't have that, silly")
 				game.render()

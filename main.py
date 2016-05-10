@@ -81,6 +81,7 @@ class Game(object):
 		self.add_entity(20, 5, monsters.Monkey(20, 5))
 		self.add_entity(20, 6, monsters.Pig(20, 6))
 		self.add_entity(1, 5, entities.Chest([entities.Book("The")], "Regular"))
+		self.add_entity(10,10, entities.Sword("Shiny"))
 
 
 		self.say("Welcome to hull breach!  Watch out for hull breaches!")

@@ -104,6 +104,21 @@ class Chest(Entity):
 			else:
 				print(inn)
 
+class Sword(Entity):
+	def __init__(self, description, xPos=None, yPos=None):
+		super(Sword, self).__init__(xPos, yPos)
+		self.description = description
+		self.name = "Sword"
+		self.icon = "^"
+
+	def apply(self, game):
+		# game.say('You equip the ' + self.description + ' sword')
+		a = game.player.inventory.equip_item(self, 4)
+		if a != False:
+			game.say(a)
+		else:
+			pass
+
 class Book(Entity):
 
 	def __init__(self, description, xPos=None, yPos=None):
