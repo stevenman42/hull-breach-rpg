@@ -3,11 +3,14 @@
 import string
 from colors import *
 import console
+import sys
 
 class Info(object):
 	def __init__(self, player):
 		self.player = player
-		self.dialogue = ["", "", "", "", "", ""]
+		self.dialogue = []
+		self.visible_dialogue = ["", "", "", "", "", "", "", ""]
+		self.scroll = -1
 		
 
 
@@ -41,8 +44,9 @@ class Info(object):
 			print(horiz_buffer + "  Food: " + color.YELLOW + "=" * int(((width/2) + 2) * hunger_percent) + color.END)
 		elif hunger_percent*100 < 25:
 			print(horiz_buffer + "  Food: " + color.RED + "=" * int(((width/2) + 2) * hunger_percent) + color.END)
+
 	def render_dialogue(self, dialogue=""):
-		for d in self.dialogue:
+		for d in self.visible_dialogue:
 			print(color.WHITE + "|  " + d + color.END)
 
 		print("")
@@ -50,9 +54,29 @@ class Info(object):
 
 	def add_dialogue(self, dialogue):
 		if dialogue.strip != "":
+			self.visible_dialogue.append(dialogue)
 			self.dialogue.append(dialogue)
-			del self.dialogue[0]
+			del self.visible_dialogue[0]
 
+
+	def scroll_back(self):
+		# idk why it's 9
+		length = len(self.dialogue)
+		if length - 1 - (9) - self.scroll >= 0:
+			for i in range(len(self.visible_dialogue)):
+				self.visible_dialogue[i] = self.dialogue[length - 1 - (9-i) - self.scroll]
+			self.scroll += 1
+		else:
+			return False
+
+	def scroll_forward(self):
+		length = len(self.dialogue)
+		if length - 2 - self.scroll < length:
+			for i in range(len(self.visible_dialogue)):
+				self.visible_dialogue[i] = self.dialogue[length - 1 - (8-i) - self.scroll]
+			self.scroll -= 1
+		else:
+			return False
 
 	def tick(self):
 		self.render

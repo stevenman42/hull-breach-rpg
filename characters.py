@@ -22,7 +22,7 @@ class MonsterOrPlayer(entities.Entity):
 
 # right now this is only used for the title sequence
 # it's just a list of all the choices for characters
-charlist = ["Knight", "Wizard", "Gunner", "Rogue"]
+charlist = ["Knight", "Wizard", "Soldier", "Rogue"]
 
 class Character(entities.Entity):
 	def __init__(self, name, game, speed, armor, health, damage, hunger, strength, xPos=0, yPos=0):
@@ -241,6 +241,7 @@ class Character(entities.Entity):
 
 	def wait(self, game):
 		game.tick()
+		return False
 
 	def move_up(self, game):
 		super(Character, self).move(game, 0, -1)
@@ -334,7 +335,7 @@ class Gunner(Character):
 
 		super(Gunner, self).__init__(name, game, 6, 5, 5, 8, 1, 10)
 		self.inventory = inventory.Inventory("Gun")
-		self.title = "Gunner"
+		self.title = "Soldier"
 
 class Rogue(Character):
 	"""docstring for Wizard"""

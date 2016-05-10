@@ -79,7 +79,7 @@ class Game(object):
 		self.add_entity(4, 9, entities.Book("Plaid", 4, 9))
 		self.add_entity(20, 4, monsters.Orc(20, 4))
 		self.add_entity(20, 5, monsters.Monkey(20, 5))
-		self.add_entity(20, 6, monsters.PigChimp(20, 6))
+		self.add_entity(20, 6, monsters.Pig(20, 6))
 		self.add_entity(1, 5, entities.Chest([entities.Book("The")], "Regular"))
 
 
@@ -242,14 +242,19 @@ def run(guy):
 
 	while 1:
 		inn = getch.__call__()
-
+		if inn == "j":
+			game.info.scroll_back()
+			game.render()
+		elif inn == "k":
+			game.info.scroll_forward()
+			game.render()
 		if inn in game.player.controls.keys():
 			# if the function needs to not tick, make it return something
 			if game.player.controls[inn](game) == None:
 				game.tick()
 
 		else:
-			print(inn)
+			# print(inn)
 			pass
 
 

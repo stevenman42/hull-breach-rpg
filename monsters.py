@@ -113,6 +113,7 @@ class Monkey(Monster):
 		super(Monkey, self).__init__(speed, armor, health, damage, icon, xPos, yPos)
 		self.walkable = False
 		self.name = "Monkey"
+		self.inventory = inventory.Inventory([entities.Book("Monkey")])
 
 class Dragon(Monster):
 	"""docstring for Dragon"""
@@ -129,15 +130,16 @@ class Dragon(Monster):
 
 
 
-class PigChimp(Monster):
-	"""docstring for PigChimp"""
+class Pig(Monster):
+	"""docstring for Pig"""
 	def __init__(self, xPos, yPos):
-		print("created a PigChimp")
+		print("created a Pig")
 		speed = 5
 		armor = 3
 		health = 40
 		damage = 7
 		icon = 'p'
-		super(PigChimp, self).__init__(speed, armor, health, damage, icon, xPos, yPos)
+		super(Pig, self).__init__(speed, armor, health, damage, icon, xPos, yPos)
 		self.walkable = False
-		self.name = "PigChimp"
+		self.name = "Pig"
+		self.inventory = inventory.Inventory([entities.Book("Poggerchump")])

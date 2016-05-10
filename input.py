@@ -25,7 +25,7 @@ class _GetchUnix:
         try:
             tty.setraw(sys.stdin.fileno())
             ch = sys.stdin.read(1)
-
+            
             if ch not in string.lowercase + "1234567890,._=[] ":
                 dis = sys.stdin.read(2)
                 if(dis == "[A"):
@@ -58,6 +58,7 @@ class _GetchWindows:
     def __call__(self):
         import msvcrt
         return msvcrt.getch()
+
 
 
 # getch = _GetchUnix()
