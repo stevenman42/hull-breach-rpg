@@ -5,7 +5,19 @@ import info
 import entities
 import monsters
 import console
+import json
 
+# Writing JSON data
+def save_settings(data):
+	data = ['a', 't', 'd', ',', ' ', 'up', 'down', 'left', 'right', 'q', 'i']
+	with open('settings.json', 'w') as f:
+	     json.dump(data, f)
+
+# Reading data back
+def load_settings():
+	with open('settings.json', 'r') as f:
+	     data = json.load(f)
+	return data
 
 
 # the doodad that gets the keyboard input
@@ -37,6 +49,7 @@ class Game(object):
 
 		self.time = 0
 
+		# this is probably temporary code I think
 		for i in range(height):
 			self.map.append([])
 			self.entities.append([])
@@ -66,6 +79,7 @@ class Game(object):
 		self.add_entity(4, 9, entities.Book("Plaid", 4, 9))
 		self.add_entity(20, 4, monsters.Orc(20, 4))
 		self.add_entity(20, 5, monsters.Monkey(20, 5))
+		self.add_entity(20, 6, monsters.PigChimp(20, 6))
 		self.add_entity(1, 5, entities.Chest([entities.Book("The")], "Regular"))
 
 
@@ -174,11 +188,12 @@ class Game(object):
 	def tick(self):
 
 		# checks to make sure nothing is still sticking around after is has 0 or less health
+		# this should probably not be here
 		for row in self.entities:
 			for col in row:
 				for thingy in col:
 					try:
-						if thingy.health < 0:
+						if thingy.health <= 0:
 							#self.remove_entity(thingy.xPos, thingy.yPos, thingy)
 							thingy.die(self)
 							kill_adj = ["brutally", "efficiently", "swiftly", "messily", "violently", "cheerfully"][random.randint(0,5)]
@@ -201,6 +216,9 @@ class Game(object):
 
 		self.time += 1
 
+		if self.time % 5 == 0:
+			self.player.hunger -= 1
+
 		self.render()
 
 		if random.randint(1, 1000) == 1:
@@ -222,17 +240,13 @@ def run(guy):
 	# i - inventory
 	# space - wait
 
-	# controls should probably be updated to use a dictionary, so they're customizable
-	# eg controls['use']
-
-	# also most if not all of these should be moved into the Character class
 	while 1:
 		inn = getch.__call__()
 
 		if inn in game.player.controls.keys():
+			# if the function needs to not tick, make it return something
 			if game.player.controls[inn](game) == None:
 				game.tick()
-			# game.tick()
 
 		else:
 			print(inn)

@@ -3,6 +3,8 @@ import inventory
 import input as key_input
 import random
 import string
+import os, sys
+from main import save_settings
 
 getch = key_input._GetchUnix()
 
@@ -29,8 +31,10 @@ class Character(entities.Entity):
 		self.speed = speed
 		self.armor = armor
 		self.health = health
+		self.maxhealth = health
 		self.damage = damage
 		self.hunger = hunger
+		self.maxhunger = hunger
 		self.strength = strength
 		self.xPos = xPos
 		self.yPos = yPos
@@ -45,7 +49,6 @@ class Character(entities.Entity):
 		self.whackable = True
 
 		self.controls = {"a": self.apply, "t": self.throw, "d": self.drop, ",": self.pickup, " ": self.wait, "up": self.move_up, "down": self.move_down, "left": self.move_left, "right": self.move_right, "q": self.quit, "i": self.show_inventory}
-
 	def attack(self,target,damage):
 		damage -= target.armor
 		target.health -= damage
@@ -270,6 +273,21 @@ class Character(entities.Entity):
 	# 	game.say("This function has not been defined yet")
 
 
+class Developer(Character):
+	"""This class is just made to be messed with in order to test out things about the game without having to worry about messing anything up"""
+	def __init__(self, name, game, xPos, yPos):
+
+		speed = 30
+		armor = 8
+		health = 100
+		damage = 40
+		hunger = 200
+		strength = 20
+
+		super(Developer, self).__init__(name, game, speed, armor, health, damage, hunger, strength, xPos, yPos)
+		self.inventory = inventory.Inventory([entities.Book("Python hand")])
+		self.title = "Developer"
+
 
 class Knight(Character):
 	"""docstring for Knight"""
@@ -279,8 +297,8 @@ class Knight(Character):
 		armor = 8
 		health = 60
 		damage = 15
-		hunger = 10
-		strength = 2
+		hunger = 200
+		strength = 20
 
 		super(Knight, self).__init__(name, game, speed, armor, health, damage, hunger, strength, xPos, yPos)
 		self.inventory = inventory.Inventory([entities.Book("Great")])
@@ -294,7 +312,7 @@ class Wizard(Character):
 		armor = 8
 		health = 60
 		damage = 15
-		hunger = 10
+		hunger = 200
 		strength = 2
 
 
@@ -310,7 +328,7 @@ class Gunner(Character):
 		armor = 8
 		health = 60
 		damage = 15
-		hunger = 10
+		hunger = 200
 		strength = 2
 
 
@@ -326,7 +344,7 @@ class Rogue(Character):
 		armor = 8
 		health = 60
 		damage = 15
-		hunger = 10
+		hunger = 200
 		strength = 2
 
 

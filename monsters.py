@@ -17,6 +17,7 @@ class Monster(entities.Entity):
 		game.remove_entity(self.xPos, self.yPos, self)
 		for item in self.inventory.items:
 			item.drop(self, game, item)
+		print("MONSTER DIED RIP IN KIL")
 		
 
 	def attack(self,target,damage):
@@ -106,7 +107,7 @@ class Monkey(Monster):
 		print("created a Monkey")
 		speed = 5
 		armor = 3
-		health = 4
+		health = 40
 		damage = 5
 		icon = 'm'
 		super(Monkey, self).__init__(speed, armor, health, damage, icon, xPos, yPos)
@@ -125,3 +126,18 @@ class Dragon(Monster):
 		super(Dragon, self).__init__(speed, armor, health, damage, icon, xPos, yPos)
 		self.walkable = False
 		self.name = "Dragon"
+
+
+
+class PigChimp(Monster):
+	"""docstring for PigChimp"""
+	def __init__(self, xPos, yPos):
+		print("created a PigChimp")
+		speed = 5
+		armor = 3
+		health = 40
+		damage = 7
+		icon = 'p'
+		super(PigChimp, self).__init__(speed, armor, health, damage, icon, xPos, yPos)
+		self.walkable = False
+		self.name = "PigChimp"
