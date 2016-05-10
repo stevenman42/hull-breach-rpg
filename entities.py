@@ -6,6 +6,7 @@ getch = key_input._GetchUnix()
 
 class Entity(object):
 	"""This is the thing that everything is pretty much except for the stuff that isn't this"""
+	# nice
 	def __init__(self, xPos, yPos):
 		self.walkable = True
 		self.whackable = False
