@@ -58,6 +58,13 @@ class Character(entities.Entity):
 			target.health -= 5
 			self.game.say("You slice the " + target.name + " for " + str(damage + 5) + " damage")
 
+	def eat(self, item, satiation):
+		self.hunger += satiation
+		if self.hunger > self.maxhunger:
+			self.hunger = self.maxhunger
+		self.inventory.remove_item(item)
+		self.game.say("You eat the " + item.description + " " + item.name)
+
 	def pick_up(self, item):
 		self.inventory.add_item(item)
 		self.game.remove_entity(self.xPos, self.yPos, item)
@@ -75,14 +82,14 @@ class Character(entities.Entity):
 				inn = getch.__call__()
 				game.render_inventory("What do you want to use or apply?")
 			if inn in "1234567890":
-				# try:
-				game.player.inventory.items[int(inn) - 1].apply(game)
-				game.render()
-				# except AttributeError:
-				# 	game.say("You can't use that, silly rabbit!")
-				# 	game.render()
+				try:
+					game.player.inventory.items[int(inn) - 1].apply(game)
+					game.render()
+				except IndexError:
+					game.say("You don't have that, silly")
+					game.render()
 			else:
-				game.say("you don't have that, silly")
+				game.say("You don't have that, silly")
 				game.render()
 
 	def pickup(self, game):

@@ -77,11 +77,12 @@ class Game(object):
 		self.add_entity(5, 5, entities.Book("Swell", 5, 5))
 		self.add_entity(5, 5, entities.Book("Greasy", 5, 5))
 		self.add_entity(4, 9, entities.Book("Plaid", 4, 9))
-		self.add_entity(20, 4, monsters.Orc(20, 4))
-		self.add_entity(20, 5, monsters.Monkey(20, 5))
+		# self.add_entity(20, 4, monsters.Orc(20, 4))
+		# self.add_entity(20, 5, monsters.Monkey(20, 5))
 		self.add_entity(20, 6, monsters.Pig(20, 6))
 		self.add_entity(1, 5, entities.Chest([entities.Book("The")], "Regular"))
 		self.add_entity(10,10, entities.Sword("Shiny"))
+		self.add_entity(11,11, entities.Egg("Boiled"))
 
 
 		self.say("Welcome to hull breach!  Watch out for hull breaches!")

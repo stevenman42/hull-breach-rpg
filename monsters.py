@@ -19,14 +19,11 @@ class Monster(entities.Entity):
 			item.drop(self, game, item)
 		print("MONSTER DIED RIP IN KIL")
 		
-
 	def attack(self,target,damage):
-
 		self.game.say("The " + self.name + " attacks for " + str(damage) + " damage")
 		target.health -= damage
 
 	def move(self, game, deltaX, deltaY):
-
 		can_move = True
 		can_whack = False
 
@@ -44,7 +41,6 @@ class Monster(entities.Entity):
 			self.yPos += deltaY
 			print(str(self.xPos) + " " + str(self.yPos))
 			game.add_entity(self.xPos, self.yPos, self)
-			#game.entity_icons[self.yPos][self.xPos].append(self.icon)
 
 		if can_whack and not(self.type == "Monster" and game.entities[self.yPos + deltaY][self.xPos + deltaX][-1].type == "Monster"):
 			self.attack(game.entities[self.yPos + deltaY][self.xPos + deltaX][-1], 5)
@@ -53,8 +49,11 @@ class Monster(entities.Entity):
 		rand = random.randint(0, 1)
 		self.game = game
 
-
 		# the random numbers are so that their movement isn't just straight up and straight over
+		# however it's also kind of broken but idk if it has to do with this bit
+		# but it needs to be fixed
+		# hopefully it'll work itself out when I work on pathfinding
+		# yeah right
 		if rand == 1:
 			if game.player.xPos > self.xPos:
 				self.move(game, 1, 0)

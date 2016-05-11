@@ -4,6 +4,8 @@ import input as key_input
 
 getch = key_input._GetchUnix()
 
+# pretty sure that everywhere the game object is passed to a function it could be replaced by having a field in the Entity class, but that's none of my business
+
 class Entity(object):
 	"""This is the thing that everything is pretty much except for the stuff that isn't this"""
 	# nice
@@ -12,6 +14,12 @@ class Entity(object):
 		self.whackable = False
 		self.xPos = xPos
 		self.yPos = yPos
+
+		# how much damage the item causes when used as a weapon
+		self.damage = 1
+
+	def equip(self):
+		return False
 
 	def drop(self, holder, game, item):
 		holder.inventory.remove_item(item)
@@ -58,15 +66,130 @@ class Entity(object):
 				game.add_entity(self.xPos, self.yPos, game.player)
 
 		if can_whack:
-			print(game.player)
-			print(game)
+
 			thing = game.entities[self.yPos + deltaY][self.xPos + deltaX][-1]
-			print(thing)
 			game.player.attack(thing, game.player.damage + random.randint(-2,2))
 
 
 	def tick(self, game):
 		pass
+
+
+class RangedWeapon(Entity):
+	def __init__(self, description, range, xPos=None, yPos=None):
+		super(RangedWeapon, self).__init__(xPos, yPos)
+		self.description = description
+		self.range = range
+		self.icon = ">"
+
+	def apply(self, game):
+		if game.player.inventory.equips[4] != 0 and game.player.inventory.equips[4].name == self.name:
+			inn = None
+			game.say("In what direction do you want to fire the " + self.name.lower() + "?")
+			game.render()
+			while inn not in ["up", "down", "left", "right"]:
+				deltaY, deltaX, can_whack = 0,0,False
+				inn = getch.__call__()
+
+				if inn == "up":
+					deltaY = -1
+				elif inn == "down":
+					deltaY = 1
+				elif inn == "left":
+					deltaX = -1
+				elif inn == "right":
+					deltaY = 1
+
+				for i in game.entities[game.player.yPos + deltaY][game.player.xPos + deltaX]:
+					if i.whackable == True:
+						can_whack = True
+					elif i.whackable == False:
+						can_whack = False
+
+				if not can_whack:
+					try:
+						game.say("You hit the " + game.entities[game.player.yPos + deltaY][game.player.xPos + deltaX][0].name + " to no avail.")
+					except IndexError:
+						game.say("The " + self.name.lower() + " swishes as you swing it wildly at the air.")
+				else:
+					try:
+						game.player.attack(game.entities[game.player.yPos + deltaY][game.player.xPos + deltaX][0], game.player.damage + self.damage)
+					except IndexError:
+						game.player.attack(game.entities[game.player.yPos + deltaY][game.player.xPos + deltaX], game.player.damage + self.damage)
+		else:
+			game.say("You don't have that equipped.")
+
+
+class MeleeWeapon(Entity):
+	def __init__(self, description, xPos=None, yPos=None):
+		super(MeleeWeapon, self).__init__(xPos, yPos)
+		self.description = description
+		self.icon = "^"
+
+	def apply(self, game):
+		if game.player.inventory.equips[4] != 0 and game.player.inventory.equips[4].name == self.name:
+			inn = None
+			game.say("In what direction do you want to swing the " + self.name.lower() + "?")
+			game.render()
+			while inn not in ["up", "down", "left", "right"]:
+				deltaY, deltaX, can_whack = 0,0,False
+				inn = getch.__call__()
+
+				if inn == "up":
+					deltaY = -1
+				elif inn == "down":
+					deltaY = 1
+				elif inn == "left":
+					deltaX = -1
+				elif inn == "right":
+					deltaY = 1
+
+				for i in game.entities[game.player.yPos + deltaY][game.player.xPos + deltaX]:
+					if i.whackable == True:
+						can_whack = True
+					elif i.whackable == False:
+						can_whack = False
+
+				if not can_whack:
+					try:
+						game.say("You hit the " + game.entities[game.player.yPos + deltaY][game.player.xPos + deltaX][0].name + " to no avail.")
+					except IndexError:
+						game.say("The " + self.name.lower() + " swishes as you swing it wildly at the air.")
+				else:
+					try:
+						game.player.attack(game.entities[game.player.yPos + deltaY][game.player.xPos + deltaX][0], game.player.damage + self.damage)
+					except IndexError:
+						game.player.attack(game.entities[game.player.yPos + deltaY][game.player.xPos + deltaX], game.player.damage + self.damage)
+		else:
+			game.say("You don't have that equipped.")
+
+	def equip(self, game):
+		# game.say('You equip the ' + self.description + ' sword')
+		a = game.player.inventory.equip_item(self, 4)
+		if a != False:
+			game.say(a)
+		else:
+			pass
+
+
+class Food(Entity):
+	"""I would make this docstring if I was a good programmer"""
+	def __init__(self, description, xPos=None, yPos=None):
+		super(Food, self).__init__(xPos, yPos)
+		self.description = description
+		self.satiation = 0
+
+	def apply(self, game):
+		game.player.eat(self, self.satiation)
+
+class Egg(Food):
+	def __init__(self, description, xPos=None, yPos=None):
+		super(Egg, self).__init__(xPos, yPos)
+		self.description = description
+		self.satiation = 10
+		self.icon = 'o'
+		self.name = "egg"
+
 
 class Chest(Entity):
 	"""This is an example of why an entity that's not a player or a monster would need an inventory"""
@@ -104,20 +227,24 @@ class Chest(Entity):
 			else:
 				print(inn)
 
-class Sword(Entity):
+
+
+class Sword(MeleeWeapon):
 	def __init__(self, description, xPos=None, yPos=None):
 		super(Sword, self).__init__(xPos, yPos)
 		self.description = description
 		self.name = "Sword"
 		self.icon = "^"
 
-	def apply(self, game):
-		# game.say('You equip the ' + self.description + ' sword')
-		a = game.player.inventory.equip_item(self, 4)
-		if a != False:
-			game.say(a)
-		else:
-			pass
+
+class Gun(RangedWeapon):
+	def __init__(self, description, xPos=None, yPos=None):
+		super(Sword, self).__init__(xPos, yPos)
+		self.description = description
+		self.name = "Sword"
+		self.icon = "^"
+		self.damage = 10
+
 
 class Book(Entity):
 
@@ -126,6 +253,7 @@ class Book(Entity):
 		self.description = description
 		self.name = "book"
 		self.icon = "B"
+		self.whackable = False
 
 	def apply(self, game):
 		game.say('You read the ' + self.description + ' book')
@@ -137,6 +265,7 @@ class NullEntity(Entity):
 	def __init__(self, xPos, yPos):
 		super(NullEntity, self).__init__(xPos, yPos)
 		self.icon = " "
+		self.name = "NULL"
 
 class WallEntity(Entity):
 
@@ -145,3 +274,4 @@ class WallEntity(Entity):
 		self.icon = "#"
 		self.type = type
 		self.walkable = False
+		self.name = "wall"
